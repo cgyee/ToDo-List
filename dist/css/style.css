@@ -1,0 +1,46 @@
+#page_background {
+    overflow: hidden;
+}
+
+#content {
+    display: flex;
+    flex-direction: column;
+}
+
+#head-nav {
+    display: flex;
+    justify-content: center;
+    height: 44px;
+    padding: 0 42px;
+    color: blueviolet;
+}
+
+#nav {
+    display: flex;
+    justify-content: space-between;
+    height: 100%;
+    width: 100%;
+}
+
+#left-icons {
+    display: flex;
+    justify-content: flex-start;
+}
+
+#search-container {
+    display: flex;
+    align-items: center;
+}
+
+#search-icon {
+    position: absolute;
+}
+
+.menu-items {
+    background-color: rgba(255, 255, 255, .1);
+    border: white;
+}
+.menu-items--left {
+    margin-right: 4px;
+    margin-left: -2px;
+}

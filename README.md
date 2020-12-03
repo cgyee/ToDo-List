@@ -1,5 +1,5 @@
 # ToDo-List
-A single page ToDO web app implemented in JavaScript, HTML&amp;CSS  
+A single page ToDo web app implemented in JavaScript, HTML&amp;CSS  
   
 ToDo Project Requirements:  
 1. User should be able to view a list of Projects  
@@ -8,4 +8,3 @@ ToDo Project Requirements:
 4. Select a ToDo to edit it's details  
 5. Delete a ToDo  
 6. Deleta a Project  
-  
