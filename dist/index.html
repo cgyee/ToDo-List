@@ -10,7 +10,7 @@
             <div id="content">
                 <div id="head-nav">
                     <div id="nav">
-                        <div class="menu-selection" id="left-items-container">
+                        <div class="menu-selection sidebar-list-item" id="left-items-container">
                             <button class="menu-item">
                                 <i class="material-icons">menu</i>
                             </button>
@@ -22,7 +22,7 @@
                                 <input id="search-input" placeholder="">
                             </div>
                         </div>
-                        <div class="menu-selection" id="right-selection-container">
+                        <div class="menu-selection sidebar-list-item" id="right-selection-container">
                             <button class="menu-item">
                                 <i class="material-icons">add</i>
                             </button>
@@ -32,18 +32,31 @@
                         </div>
                     </div>
                 </div>
-
                 <div id="main-app">
-                    <div id="main-sidebar">
+                    <div class="sidebar-rules" id="main-sidebar">
                         <div id="main-sidebar-content">
                             <div id="sidebar-items">
                                 <ul>
+                                    <li><div class="menu-selection sidebar-list-item"><i class="material-icons">today</i><p>Today</p></div></li>
+                                    <li><div class="menu-selection sidebar-list-item"><i class="material-icons">date_range</i><p>Calendar</p></li>
+                                    <li><div class="menu-selection sidebar-list-item"><i class="material-icons">work</i><p>Projects</p></li>
+                                </ul>
+                            </div> 
+                        </div>
+                        <div id="sidebar-projects-box">
+                            <div class="sidebar-rules" id="sidebar-projects">
+                                <ul>
+                                    <li><p>Today</p></li>
+                                    <li><p>Tomorrow</p></li>
+                                    <li><p>Projects</p></li>
+                                    <li><p>Today</p></li>
+                                    <li><p>Tomorrow</p></li>
+                                    <li><p>Projects</p></li>
                                     <li><p>Today</p></li>
                                     <li><p>Tomorrow</p></li>
                                     <li><p>Projects</p></li>
                                 </ul>
                             </div>
-                            
                         </div>
                     </div>
                     <div class="main" id="main-display">
