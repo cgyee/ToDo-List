@@ -10,7 +10,7 @@
             <div id="content">
                 <div id="head-nav">
                     <div id="nav">
-                        <div class="menu-selection sidebar-list-item" id="left-items-container">
+                        <div class="flex-content sidebar-list-item" id="left-items-container">
                             <button class="menu-item">
                                 <i class="material-icons">menu</i>
                             </button>
@@ -22,7 +22,7 @@
                                 <input id="search-input" placeholder="">
                             </div>
                         </div>
-                        <div class="menu-selection sidebar-list-item" id="right-selection-container">
+                        <div class="flex-content sidebar-list-item" id="right-selection-container">
                             <button class="menu-item">
                                 <i class="material-icons">add</i>
                             </button>
@@ -33,18 +33,18 @@
                     </div>
                 </div>
                 <div id="main-app">
-                    <div class="sidebar-rules" id="main-sidebar">
+                    <div class="flex-content f-column" id="main-sidebar">
                         <div id="main-sidebar-content">
                             <div id="sidebar-items">
                                 <ul>
-                                    <li><div class="menu-selection sidebar-list-item"><i class="material-icons">today</i><p>Today</p></div></li>
-                                    <li><div class="menu-selection sidebar-list-item"><i class="material-icons">date_range</i><p>Calendar</p></li>
-                                    <li><div class="menu-selection sidebar-list-item"><i class="material-icons">work</i><p>Projects</p></li>
+                                    <li><div class="flex-content sidebar-list-item"><i class="material-icons">today</i><p>Today</p></div></li>
+                                    <li><div class="flex-content sidebar-list-item"><i class="material-icons">date_range</i><p>Calendar</p></li>
+                                    <li><div class="flex-content sidebar-list-item"><i class="material-icons">work</i><p>Projects</p></li>
                                 </ul>
                             </div> 
                         </div>
                         <div id="sidebar-projects-box">
-                            <div class="sidebar-rules" id="sidebar-projects">
+                            <div class="flex-content f-column" id="sidebar-projects">
                                 <ul>
                                     <li><p>Today</p></li>
                                     <li><p>Tomorrow</p></li>
@@ -64,8 +64,31 @@
 
                         </div>
                         <div id="display-out-container">
-                            <div id="display-in-container">
-
+                            <div class="flex-content f-column" id="display-in-container">
+                                <div class="flex-content" id="new-task-todo-container">
+                                    <div id="new-task-todo">
+                                        <button class="icon-button" id="new-task-todo-button">
+                                            <i class="material-icons">add_task</i>
+                                        </button>
+                                        <input class="solid-bottom-border" id="new-task-todo-input" placeholder="ToDo || !ToDo...">
+                                    </div>
+                                </div>
+                                <div class="flex-content" id="todos-container">
+                                    <div class="flex-content f-column" id="display-todos">
+                                        <div class="flex-content todo-item">
+                                            <div class="flex-content"> 
+                                                <button class="icon-button todo-item-button"><i class="material-icons">check_circle_outline</i></button>
+                                                <span class="todo-item-text">This Todo Title</span>
+                                            </div>
+                                            <div class="flex-content todo-item-options">
+                                                <button class="icon-button todo-item-button todo-item-option"><i class="material-icons">expand_more</i></button>
+                                                <button class="icon-button todo-item-button todo-item-option"><i class="material-icons">create</i></button>
+                                                <button class="icon-button todo-item-button todo-item-option"><i class="material-icons">delete</i></button>
+                                            </div>
+                                        </div>
+                                        
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>

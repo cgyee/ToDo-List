@@ -1,5 +1,10 @@
+:root {
+    --bg-color: rgb(32,32,32);
+    --rred: rgb(255, 102, 102);
+    --ultrav: rgb(166, 77, 255);
+}
 html {
-    background-color: rgb(32,32,32);
+    background-color: var(--bg-color);
 }
 
 ul {
@@ -9,15 +14,24 @@ ul {
 
 li {
     margin: 2px;
-    color: rgb(255, 102, 102);
+    color: var(--rred);
 }
 
 p {
     margin-left: 4px;
 }
 
-.menu-selection {
+.flex-content {
     display: flex;
+    flex-direction: row;
+}
+
+.f-column {
+    flex-direction: column;
+}
+
+.icon-button {
+    border-style: none;
 }
 
 .menu-item {
@@ -34,13 +48,38 @@ p {
     border: .5px solid rgb(0, 0, 0);
 }
 
-.sidebar-rules {
-    display: flex;
-    flex-direction: column;
-}
-
 .sidebar-list-item {
     align-items: center;
+}
+
+.solid-bottom-border {
+    border-style: none;
+    border-bottom: 2px solid var(--rred);
+}
+
+.todo-item {
+    justify-content: space-between;
+    padding-top: 10px;
+    border-top: 1px solid rgb(192, 192, 192);
+}
+
+.todo-item-button {
+    background-color: var(--bg-color);
+    color: var(--rred);
+}
+
+.todo-item-option {
+    color: var(--ultrav);
+}
+
+.todo-item-option:hover {
+    border-bottom: 1px solid var(--ultrav);
+}
+.todo-item-options {
+    justify-content: flex-end;
+}
+.todo-item-text {
+    color: rgb(247, 247, 247);
 }
 
 #page_background {
@@ -95,7 +134,7 @@ p {
     border-radius: 3px;
     border: 1px solid  rgba(102, 163, 255, .2);
     background-color: rgba(102, 163, 255, .2);
-    color: rgb(166, 77, 255);
+    color: var(--ultrav);
 }
 
 #main-app {
@@ -124,7 +163,7 @@ p {
 }
 
 #sidebar-projects-box {
-    height: 80vh;
+    height: 80%;
     margin: 10px auto ;
     width: 305px;
     background-color: rgb(32,32,32);
@@ -151,20 +190,54 @@ p {
 
 }
 
+#todos-container {
+    width: 100%;
+    height: 100%;
+}
+
 #display-out-container {
     width: 100%;
     height: calc(100vh - 120px);
 }
 
 #display-in-container {
-    height: 80vh;
-    width: 80vw;
+    height: 85%;
+    width: 80%;
     border: 1px solid rgb(204, 255, 255);
     border-radius: 3px;
     margin: auto;
-    display: flex;
-    flex-direction: column;
 }
 
+#display-todos {
+    height: 90%;
+    width: 90%;
+    margin: auto;
+    overflow-y: auto;
+}
 
+#new-task-todo-container {
+    height: 15%;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+}
 
+#new-task-todo-button {
+    background-color: rgb(32,32,32);
+    color: var(--rred);
+}
+
+#new-task-todo-input {
+    background-color: rgb(32,32,32);
+    color: rgb(192, 192, 192);
+    padding-top: 5px;
+    margin-left: 5px;
+}
+#new-task-todo-input:focus {
+    outline: none;
+    transform: scale(1.1);
+}
+
+#new-task-todo-input:hover {
+    background-color: rgba(231, 197, 128, .1);
+}
