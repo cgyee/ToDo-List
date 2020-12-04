@@ -82,6 +82,20 @@ p {
     color: rgb(247, 247, 247);
 }
 
+.todo-details {
+    justify-content: center;
+}
+
+.p-details {
+    width: 80%;
+    height: 80px;
+    overflow-y: auto;
+}
+
+.grid-todo {
+    grid-template-rows: repeat(2, 1fr);
+}
+
 #page_background {
     overflow: hidden;
 }

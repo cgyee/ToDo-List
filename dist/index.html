@@ -11,24 +11,15 @@
                 <div id="head-nav">
                     <div id="nav">
                         <div class="flex-content sidebar-list-item" id="left-items-container">
-                            <button class="menu-item">
-                                <i class="material-icons">menu</i>
-                            </button>
-                            <button class="menu-item">
-                                <i class="material-icons">home</i>
-                            </button>
+                            <button class="menu-item"><i class="material-icons">menu</i></button>
+                            <button class="menu-item"><i class="material-icons">home</i></button>
                             <div id="search-container" class="menu-item">
-                                <i class="material-icons" id="search-icon">search</i>
-                                <input id="search-input" placeholder="">
+                                <i class="material-icons" id="search-icon">search</i><input id="search-input" placeholder="">
                             </div>
                         </div>
                         <div class="flex-content sidebar-list-item" id="right-selection-container">
-                            <button class="menu-item">
-                                <i class="material-icons">add</i>
-                            </button>
-                            <button class="menu-item">
-                                <i class="material-icons">account_circle</i>
-                            </button>
+                            <button class="menu-item"><i class="material-icons">add</i></button>
+                            <button class="menu-item"><i class="material-icons">account_circle</i></button>
                         </div>
                     </div>
                 </div>
@@ -75,18 +66,23 @@
                                 </div>
                                 <div class="flex-content" id="todos-container">
                                     <div class="flex-content f-column" id="display-todos">
-                                        <div class="flex-content todo-item">
-                                            <div class="flex-content"> 
-                                                <button class="icon-button todo-item-button"><i class="material-icons">check_circle_outline</i></button>
-                                                <span class="todo-item-text">This Todo Title</span>
+                                        <div class="grid grid-todos">
+                                            <div class="flex-content todo-item">
+                                                <div class="flex-content"> 
+                                                    <button class="icon-button todo-item-button"><i class="material-icons">check_circle_outline</i></button>
+                                                    <span class="todo-item-text">This Todo Title</span>
+                                                </div>
+                                                <div class="flex-content todo-item-options">
+                                                    <button class="icon-button todo-item-button todo-item-option"><i class="material-icons">expand_more</i></button>
+                                                    <button class="icon-button todo-item-button todo-item-option"><i class="material-icons">create</i></button>
+                                                    <button class="icon-button todo-item-button todo-item-option"><i class="material-icons">delete</i></button>
+                                                </div>
                                             </div>
-                                            <div class="flex-content todo-item-options">
-                                                <button class="icon-button todo-item-button todo-item-option"><i class="material-icons">expand_more</i></button>
-                                                <button class="icon-button todo-item-button todo-item-option"><i class="material-icons">create</i></button>
-                                                <button class="icon-button todo-item-button todo-item-option"><i class="material-icons">delete</i></button>
-                                            </div>
+                                            <!-- This code below will be used to display details when the expand more button is clicked -->
+                                            <!-- <div class="flex-content todo-details">
+                                                <p class="todo-item-text p-details">Lorem ipsum dolor sit amet, consectetur adipiscing elit. In sit amet aliquam magna, sed sodales leo. Aliquam erat volutpat. Morbi vestibulum, ligula a posuere consequat, tortor mauris elementum est, id fringilla nibh metus a eros. Donec non congue lorem. Cras lacinia, lectus quis facilisis ornare,</p>
+                                            </div> -->
                                         </div>
-                                        
                                     </div>
                                 </div>
                             </div>
