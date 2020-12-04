@@ -100,7 +100,7 @@ p {
 
 #main-app {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
 }
 
 #main-sidebar {
@@ -151,9 +151,19 @@ p {
 
 }
 
-#display-projects {
+#display-out-container {
     width: 100%;
     height: calc(100vh - 120px);
+}
+
+#display-in-container {
+    height: 80vh;
+    width: 80vw;
+    border: 1px solid rgb(204, 255, 255);
+    border-radius: 3px;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
 }
 
 
