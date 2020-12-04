@@ -7,18 +7,8 @@ html {
     background-color: var(--bg-color);
 }
 
-ul {
-    list-style: none;
-    padding: 0;
-}
-
-li {
-    margin: 2px;
-    color: var(--rred);
-}
-
-p {
-    margin-left: 4px;
+.p-list-text {
+    margin: 5px 0 0 10px;
 }
 
 .flex-content {
@@ -48,13 +38,40 @@ p {
     border: .5px solid rgb(0, 0, 0);
 }
 
-.sidebar-list-item {
-    align-items: center;
+.sidebar-projects-list {
+    list-style: none;
+    padding: 0;
+    width: 80%;
+}
+
+.center-list-item {
+    text-align: center;
+}
+
+.sidebar-project-list_item {
+    width: 100%;
+    margin: 2px;
+    color: var(--rred);
 }
 
 .solid-bottom-border {
     border-style: none;
     border-bottom: 2px solid var(--rred);
+}
+
+.solid-top-border {
+    border-style: none;
+    border-top: 2px solid var(--rred);
+}
+
+.sidebar-projects-list {
+    list-style: none;
+    padding: 0;
+    width: 80%;
+}
+
+.sidebar-quicklinks {
+    padding: 5px 0;
 }
 
 .todo-item {
