@@ -1,2 +1,4 @@
 req.txt
+.jshintrc
+.eslintrc
 /node_modules
