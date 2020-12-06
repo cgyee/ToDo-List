@@ -8,5 +8,11 @@ const DOMtodo = () => {
 
         div.className = DIV_CLASSNAME;
         p.className = P_CLASSNAME;
+        p.innerText
+
+        div.append(p);
+        return div;
     }
 }
+
+export {DOMtodo};
