@@ -1,12 +1,13 @@
 const DOMTodoItem = (taskTitle, id) => {
     
-    let title = taskTitle;
-    let myID = id;
+    let title = taskTitle || "";
+    let myID = id || "";
 
     const BUTTON_CLASSNAME = "icon-button todo-item-button ";
     const I_CLASSNAME = "materials-icon";
 
     const titleLeftFlex = ((title) => {
+        
         const DIV_CLASSNAME = "flex-content";
         const SPAN_CLASSNAME = "todo-item-text";
         const I_ICON = "check_circle_outline";
@@ -31,6 +32,7 @@ const DOMTodoItem = (taskTitle, id) => {
     })(title);
 
     const ViewEditFlex = (() => {
+        
         const buttonOptions = ["expand_more",
                                 "create",
                                 "delete"];
@@ -77,9 +79,12 @@ const DOMTodoItem = (taskTitle, id) => {
     };
 
     const render = () => {
+        
         const DIV_CLASSNAME = "flex-content todo-item";
 
         const div = document.createElement('div');
+        
+        div.className = DIV_CLASSNAME;
 
         div.append(titleLeftFlex, ViewEditFlex);
         

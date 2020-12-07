@@ -1,7 +1,7 @@
 const Project = (name, id) => {
 
-    let myName = name;
-    let myID = id;
+    let myName = name || "";
+    let myID = id || "";
     let myTasksTable = {};
     let myTasksArr = [];
 
