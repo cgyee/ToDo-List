@@ -1,4 +1,4 @@
-const DOMTodoItem = (taskTitle, id, details) => {
+const TodoItemView = (taskTitle, id, details) => {
     
     let title = taskTitle || "";
     let myID = id || "";
@@ -95,4 +95,4 @@ const DOMTodoItem = (taskTitle, id, details) => {
     return {render};
 };
 
-export {DOMtodo};
+export {TodoItemView};

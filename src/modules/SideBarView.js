@@ -1,6 +1,6 @@
 const { Project } = require("../objects/project");
 
-const SideBarProj = (projName, projID) => {
+const SideBarView = (projName, projID) => {
     
     const LI_CLASSNAME = "sidebar-project-list_item  solid-top-border";
     const P_CLASSNAME = "center-list-item";
@@ -56,4 +56,4 @@ const SideBarProjEvents = () => {
 
     return {update};
 };
-export {SideBarProj, SideBarProjEvents};
+export {SideBarView, SideBarProjEvents};
