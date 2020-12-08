@@ -1,7 +1,8 @@
-const DOMTodoItem = (taskTitle, id) => {
+const DOMTodoItem = (taskTitle, id, details) => {
     
     let title = taskTitle || "";
     let myID = id || "";
+    let myDetails = details || "";
 
     const BUTTON_CLASSNAME = "icon-button todo-item-button ";
     const I_CLASSNAME = "materials-icon";

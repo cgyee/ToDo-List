@@ -21,46 +21,55 @@ const Project = (name, id) => {
         return myID;
     };
 
-    const isValidID = (thisID) => {
+    /* const isValidID = (thisID) => {
         return myTasksArr.every(taskID =>  taskID != thisID ? true: false);
+    }; */
+
+    const isValidIDTable = (thisID) => {
+        return myTasksTable.hasOwnProperty(thisID) ? false : true;
     };
 
-    const addTaskIDToArray = (thisID) => {
+    /* const addTaskIDToArray = (thisID) => {
         myTasksArr.push(thisID);
-    };
+    }; */
 
     const addTaskToTable = (thisID, thisTask) => {
         myTasksTable[thisID] = thisTask;
     };
 
+
     const addTask = (thisID, thisTask) => {
-        if(isValidID(thisID)) {
-            addTaskIDToArray(thisID);
-            addTaskToTable(thisID, thisTask);
-            return true;
-        }
-        else {
-            return false;
-        }
+        addTaskToTable(thisID, thisTask);
     };
 
-    const removeTask = (thisID) => {
-        removeIDFromArray(thisID);
-        removeTaskFromTable(thisID);
-    }
-
-    const removeIDFromArray = (thisID) => {
+    /* const removeIDFromArray = (thisID) => {
         const index = myTasksArr.indexOf(thisID);
         if(index != -1) {
             myTasksArr = myTasksArr.filter(task => task != thisID);
         }
-    };
+    }; */
 
     const removeTaskFromTable = (thisID) => {
-        delete myTasksTable[thisID];
+        if(isValidIDTable(thisID)){
+            delete myTasksTable[thisID];
+        }
     };
 
-    return {setName, setID, getName, getID, addTask, removeTask};
+    const removeTask = (thisID) => {
+        // removeIDFromArray(thisID);
+        removeTaskFromTable(thisID);
+    };
+    
+    const createID = () => {
+        let randNum = Math.floor(Math.random() * 255) +1;
+        while(!isValidIDTable(randNum)) {
+            randNum = Math.floor(Math.random() * 255) +1
+        }
+
+        return randNum;
+    };
+
+    return {setName, setID, getName, getID, addTask, removeTask, createID};
 };
 
 export {Project};
