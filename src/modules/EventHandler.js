@@ -1,5 +1,5 @@
 const Events = (name) => {
-    let name = name || "";
+    let myName = name || "";
     let handlers = [];
 
     const addHandler = (handler) => {
@@ -15,8 +15,8 @@ const Events = (name) => {
         handlers.forEach(h => {
             h(eventArgs);
         });
-    }
-}
+    };
+};
 
 const eventAggregator = (() => {
     let events = [];

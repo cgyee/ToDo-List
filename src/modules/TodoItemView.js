@@ -1,14 +1,17 @@
-const TodoItemView = (taskTitle, id, details) => {
-    
-    let title = taskTitle || "";
-    let myID = id || "";
-    let myDetails = details || "";
+import { eventAggregator } from "./EventHandler";
+
+const TodoItemView = () => {
+
+    const RENDER_AREA_ID = "#display-in-container";
+    const RENDER_AREA = document.querySelector(RENDER_AREA_ID);
 
     const BUTTON_CLASSNAME = "icon-button todo-item-button ";
     const I_CLASSNAME = "materials-icon";
 
-    const titleLeftFlex = ((title) => {
-        
+    const titleLeftFlex = (thisTitle) => {
+
+        const title = thisTitle || "";
+
         const DIV_CLASSNAME = "flex-content";
         const SPAN_CLASSNAME = "todo-item-text";
         const I_ICON = "check_circle_outline";
@@ -30,9 +33,9 @@ const TodoItemView = (taskTitle, id, details) => {
         div.button.append(button, span);
 
         return div;
-    })(title);
+    };
 
-    const ViewEditFlex = (() => {
+    const ViewEditFlex = () => {
         
         const buttonOptions = ["expand_more",
                                 "create",
@@ -61,9 +64,11 @@ const TodoItemView = (taskTitle, id, details) => {
             div.append(button);
         });
 
-    })();
+    };
 
-    const DetailsCollapsible = () => {
+    const DetailsCollapsible = (thisDetails) => {
+        const details = thisDetails || "";
+
 
         const DIV_CLASSNAME = "flex-content todo-details";
         const P_CLASSNAME = "todo-item-text p-details";
@@ -73,26 +78,29 @@ const TodoItemView = (taskTitle, id, details) => {
 
         div.className = DIV_CLASSNAME;
         p.className = P_CLASSNAME;
-        p.innerText = //Tdodo
+        p.innerText = details;
 
         div.append(p);
         return div;
     };
 
-    const render = () => {
-        
+    const render = (options) => { 
+
         const DIV_CLASSNAME = "flex-content todo-item";
 
         const div = document.createElement('div');
-        
+
+        div.setAttribute("id", options.id);
         div.className = DIV_CLASSNAME;
 
-        div.append(titleLeftFlex, ViewEditFlex);
+        div.append(titleLeftFlex(options.title), ViewEditFlex, DetailsCollapsible(options.details));
         
-        return div;
+        RENDER_AREA.append(div);
     };
 
-    return {render};
+    eventAggregator.subscribe("addTask", (options) => {
+        eventAggregator.publish("taskAdded", render(options));
+    });
 };
 
 export {TodoItemView};

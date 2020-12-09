@@ -1,3 +1,5 @@
+import { eventAggregator } from "./EventHandler";
+
 const { Project } = require("../objects/project");
 const { Task } = require("../objects/task");
 
@@ -10,10 +12,16 @@ const ProjectController = (() => {
         
         Task.setID(newID);
         Project.addTask(newID, Task);
+
+        eventAggregator.publish("addTask", {"title": Task.getTitle(),
+                                             "details": Task.getDetails(), 
+                                             "id": Task.getID() });
     };
 
     const removeFromProject = (Project, Task) => {
         Project.removeTask(Task.getID());
+
+        eventAggregator.publish("removeTask", {"id": Task.getID()});
     };
 
     const setName = (Project, name) => {

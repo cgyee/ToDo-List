@@ -1,3 +1,5 @@
+import { eventAggregator } from "./EventHandler";
+
 const { Project } = require("../objects/project");
 
 const SideBarView = (projName, projID) => {
@@ -46,7 +48,9 @@ const SideBarProjEvents = () => {
         const myProjs  = projArray;
 
         myProjs.forEach(project => {
-            project.addEventListener('click', e => {console.log(e.target.parentElement.id || e.target.id);});
+            project.addEventListener('click', e => {
+                eventAggregator.publish("projectSelected", {project: project});
+            });
         });
     };
 
