@@ -2,35 +2,33 @@ import { eventAggregator } from "./EventHandler";
 
 const { Project } = require("../objects/project");
 
-const SideBarView = (projName, projID) => {
-    
-    const LI_CLASSNAME = "sidebar-project-list_item  solid-top-border";
-    const P_CLASSNAME = "center-list-item";
-    const container = "#ul-sidebar-projects";
-    
-    let myProjName = projName || "";
-    let myProjID = projID || "";
+const SideBarView = () => {    
 
-    const renderArea = () => {
-        return container;
-    };
-
-    const render = () => {
+    const render = (project) => {
+        const RENDER_ID = "#ul-sidebar-projects";
+        const RENDER_AREA = document.querySelector(RENDER_ID);
         
+        const LI_CLASSNAME = "sidebar-project-list_item  solid-top-border";
+        const P_CLASSNAME = "center-list-item";
+
         const li = document.createElement('li');
         li.className = LI_CLASSNAME;
-        li.id = myProjID;
+        li.id = project.id;
 
         const p = document.createElement('p');
         p.className = P_CLASSNAME;
-        p.innerText = myProjName;
+        p.innerText = project.name;
 
         li.append(p);
 
-        return li;
+        RENDER_AREA.append(li);
     };
+
+    eventAggregator.subscribe("projectAdded", eventArgs => {
+        render(eventArgs.project);
+    })
    
-    return {renderArea, render};
+    return {render};
 };
 
 const SideBarProjEvents = () => {
@@ -46,10 +44,19 @@ const SideBarProjEvents = () => {
     const updateProjListener = (projArray) => {
         
         const myProjs  = projArray;
+        let PROJ = Project("main", 0);
 
         myProjs.forEach(project => {
             project.addEventListener('click', e => {
-                eventAggregator.publish("projectSelected", {project: project});
+                console.log(e);
+                
+                const id = PROJ.createID();
+                const p = Project(project.textContent, id);
+                
+                project.setAttribute("id", id);
+                PROJ.addTask(id, p);
+
+                eventAggregator.publish("projectSelected", {project: p.getTasks()});
             });
         });
     };

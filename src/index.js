@@ -1,13 +1,9 @@
 import {SideBarProj, SideBarProjEvents} from './modules/DOMsidebarprojects';
 import {Project} from './objects/project';
+import {storageAvailable} from './modules/localStorage';
 
-const test = Project("Chris", 1);
-console.log(test.getName());
-console.log(test.getID());
+let myProjects = storageAvailable() ? localStorage.getItem("myProjects") : {};
 
-const testSide = SideBarProj(test.getName(), test.getID());
-
-const ul = document.querySelector(testSide.renderArea());
 
 //console.log(testSide.render());
 

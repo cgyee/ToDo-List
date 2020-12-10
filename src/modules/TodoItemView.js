@@ -98,9 +98,7 @@ const TodoItemView = () => {
         RENDER_AREA.append(div);
     };
 
-    eventAggregator.subscribe("addTask", (options) => {
-        eventAggregator.publish("taskAdded", render(options));
-    });
+    eventAggregator.subscribe("addTasktoView", render(eventArgs));
 };
 
 export {TodoItemView};

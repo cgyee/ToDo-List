@@ -3,7 +3,6 @@ const Project = (name, id) => {
     let myName = name || "";
     let myID = id || "";
     let myTasksTable = {};
-    let myTasksArr = [];
 
     const setName = (name) => {
         myName = name;
@@ -69,7 +68,11 @@ const Project = (name, id) => {
         return randNum;
     };
 
-    return {setName, setID, getName, getID, addTask, removeTask, createID};
+    const getTasks = () => {
+        return myTasksTable;
+    }
+
+    return {setName, setID, getName, getID, addTask, removeTask, createID, getTasks};
 };
 
 export {Project};
