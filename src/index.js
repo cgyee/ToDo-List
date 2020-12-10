@@ -1,14 +1,17 @@
-import {SideBarProj, SideBarProjEvents} from './modules/DOMsidebarprojects';
 import {Project} from './objects/project';
 import {storageAvailable} from './modules/localStorage';
+import { eventAggregator } from './modules/EventHandler';
+import {View} from './modules/View';
 
-let myProjects = storageAvailable() ? localStorage.getItem("myProjects") : {};
+let myProjects = storageAvailable() ? localStorage.getItem("myProjects") : Project("main", 0);
 
+const id = myProjects.createID();
+const p = Project("chris", id);
+const c = {id: p.getID(), name: p.getName()};
 
-//console.log(testSide.render());
+myProjects.addTask(id, p);
+console.log(myProjects.getName());
 
-ul.append(testSide.render());
+View();
 
-const events = SideBarProjEvents();
-events.update();
-
+eventAggregator.publish("projectAdded", {project: c});

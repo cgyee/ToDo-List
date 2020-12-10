@@ -1,6 +1,7 @@
-const { eventAggregator } = require("./EventHandler");
+import { eventAggregator } from "./EventHandler";
 
 const TodoView = () => {
+    
     const RENDER_AREA_ID = "#display-todos";
     const RENDER_AREA = document.querySelector(RENDER_AREA_ID);
 
@@ -8,12 +9,12 @@ const TodoView = () => {
         const project = eventArgs.project;
         
         clearTaskDisplay();
-        for(task in project) {
+        for(let task in project) {
             const title = project[task].getTitle();
             const details = project[task].getDetails();
             const id = project[task].getID();
 
-            eventAggregator.publish("addTasktoView", {title, details, id})
+            eventAggregator.publish("addTasktoView", {title, details, id});
         } 
     });
 
@@ -29,9 +30,11 @@ const TodoView = () => {
         while(RENDER_AREA.firstChild) {
             RENDER_AREA.removeChild(RENDER_AREA.firstChild);
         }
-    }
+    };
 
-}
+};
+
+export {TodoView};
 
 const TodoViewEventListener = () => {
     
@@ -41,7 +44,7 @@ const TodoViewEventListener = () => {
 
         return INPUT.textContent;
 
-    }
+    };
 
     const addTaskOnClick = () => {
         const BUTTON_ID = "#new-task-todo-button";
@@ -50,6 +53,6 @@ const TodoViewEventListener = () => {
         BUTTON.addEventListener('click', e => {
             task = getTaskInput();
             
-        })
-    }
-}
+        });
+    };
+};

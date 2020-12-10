@@ -1,5 +1,4 @@
 const storageAvailable = (type) => {
-    const type = type;
     const isStorageAvailable = (type) => {
         var storage;
         try {
@@ -24,7 +23,7 @@ const storageAvailable = (type) => {
                 (storage && storage.length !== 0);
         }
     }
-    return isStorageAvailable() ? true : false;
+    return isStorageAvailable(type) ? true : false;
 }
 
 export {storageAvailable};

@@ -4,7 +4,7 @@
   "description": "A single page ToDO web app implemented in JavaScript, HTML&amp;CSS",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1", 
+    "test": "echo \"Error: no test specified\" && exit 1",
     "build": "webpack"
   },
   "repository": {
@@ -19,6 +19,7 @@
   "homepage": "https://github.com/cgyee/ToDo-List#readme",
   "devDependencies": {
     "eslint": "^7.14.0",
+    "webapack": "^1.0.0",
     "webpack": "^5.9.0",
     "webpack-cli": "^4.2.0"
   }
