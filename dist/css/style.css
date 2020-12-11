@@ -166,6 +166,11 @@ html {
     color: var(--menuGold);
 }
 
+.modal-button:hover {
+    border: 1px solid var(--menuGold);
+    transform: scale(1.1);
+}
+
 #page_background {
     overflow: hidden;
 }

@@ -1,11 +1,11 @@
 import { eventAggregator } from "./EventHandler";
 
 const TodoView = () => {
-    
-    const RENDER_AREA_ID = "#display-todos";
-    const RENDER_AREA = document.querySelector(RENDER_AREA_ID);
 
     const clearTaskDisplay = () => {
+        const RENDER_AREA_ID = "#display-todos";
+        const RENDER_AREA = document.querySelector(RENDER_AREA_ID);
+
         while(RENDER_AREA.firstChild) {
             RENDER_AREA.removeChild(RENDER_AREA.firstChild);
         }
@@ -14,6 +14,7 @@ const TodoView = () => {
     const TodoViewEvent = (() => {
 
         const toggleAddTaskButton = (bool, id) => {
+            console.log(bool, id);
             const button = document.querySelector(id);
             button.disabled = bool;
         }
@@ -31,10 +32,11 @@ const TodoView = () => {
         }
 
         const inputEvent = (id) => {
+            console.log(id);
             const textarea = document.querySelector(id.input);
             textarea.addEventListener('keydown', e => {
                 checkAndEnableAddButton(id);
-            })
+            });
         }
 
         const displayModalonClick = () => {
@@ -57,6 +59,8 @@ const TodoView = () => {
 
         }
 
+        initEvents();
+
         const ModalEvent = (() => {
 
             const clearTextInput = () => {
@@ -74,32 +78,36 @@ const TodoView = () => {
                 return name.value;
             }
 
+            const clearModal = () => {
+                    const modal = document.querySelector('.modal');
+                    modal.style.display = "none";
+                    clearTextInput();
+            }
+
             const createNewTask = () => {
-                title = getToDoTitle();
-                details = getTextInput();
+                const title = getToDoTitle();
+                const details = getTextInput();
+                clearModal();
                 eventAggregator.publish("createTask", {title, details});
             }
             
             const addTaskonClick = () => {
                 const button = document.querySelector('#confirm-modal');
-                button.addEventListener('click', e=> createNewTask())
+                button.addEventListener('click', e => createNewTask())
 
             };
 
             const closeModal = () => {
                 const button = document.querySelector('#close-modal');
                 button.addEventListener('click', e=> {
-                    const modal = document.querySelector('.modal');
-
-                    modal.style.display = "none";
-                    clearTextInput();
+                    clearModal();
                 })
             };
 
             const initEvents = () => {
                 const input = '#modal-text-input';
                 const button = '#confirm-modal';
-                const i = inputEvent({input, button});
+                inputEvent({input, button});
                 addTaskonClick();
                 closeModal();
             }
@@ -107,7 +115,6 @@ const TodoView = () => {
             initEvents();
         })()
 
-        initEvents();
     })();
 
     eventAggregator.subscribe("projectSelected", eventArgs => {

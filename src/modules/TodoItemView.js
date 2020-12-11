@@ -2,11 +2,11 @@ import { eventAggregator } from "./EventHandler";
 
 const TodoItemView = () => {
 
-    const RENDER_AREA_ID = "#display-in-container";
+    const RENDER_AREA_ID = "#display-todos";
     const RENDER_AREA = document.querySelector(RENDER_AREA_ID);
 
     const BUTTON_CLASSNAME = "icon-button todo-item-button ";
-    const I_CLASSNAME = "materials-icon";
+    const I_CLASSNAME = "material-icons";
 
     const titleLeftFlex = (thisTitle) => {
 
@@ -30,7 +30,7 @@ const TodoItemView = () => {
         i.innerText = I_ICON;
 
         button.append(i);
-        div.button.append(button, span);
+        div.append(button, span);
 
         return div;
     };
@@ -60,8 +60,8 @@ const TodoItemView = () => {
             i.innerText = option;
 
             button.append(i);
-
             div.append(button);
+            return div;
         });
 
     };
@@ -87,15 +87,19 @@ const TodoItemView = () => {
     const render = (options) => { 
 
         const DIV_CLASSNAME = "flex-content todo-item";
+        const GRID_CLASSNAME = "grid grid-todos";
 
+        const grid = document.createElement('div');
         const div = document.createElement('div');
 
         div.setAttribute("id", options.id);
+
+        grid.className = GRID_CLASSNAME;
         div.className = DIV_CLASSNAME;
 
         div.append(titleLeftFlex(options.title), ViewEditFlex, DetailsCollapsible(options.details));
-        
-        RENDER_AREA.append(div);
+        grid.append(div);
+        RENDER_AREA.append(grid);
 
         ToDoItemEvents.collaspsibleOnClick();
 
@@ -123,7 +127,7 @@ const TodoItemView = () => {
         return {collaspsibleOnClick};
     })();
 
-    eventAggregator.subscribe("addTasktoView", eventArgs => render(eventArgs));
+    eventAggregator.subscribe("addTasktoView", eventArgs => {render(eventArgs)});
 };
 
 export {TodoItemView};
