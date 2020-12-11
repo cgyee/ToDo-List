@@ -57,13 +57,13 @@ const TodoItemView = () => {
             button.className = BTN_CLASSNAME;
             i.className = I_CLASSNAME;
 
-            i.innerText = option;
+            i.textContent = option;
 
             button.append(i);
             div.append(button);
-            return div;
         });
 
+        return div;
     };
 
     const DetailsCollapsible = (thisDetails) => {
@@ -97,7 +97,7 @@ const TodoItemView = () => {
         grid.className = GRID_CLASSNAME;
         div.className = DIV_CLASSNAME;
 
-        div.append(titleLeftFlex(options.title), ViewEditFlex, DetailsCollapsible(options.details));
+        div.append(titleLeftFlex(options.title), ViewEditFlex(), DetailsCollapsible(options.details));
         grid.append(div);
         RENDER_AREA.append(grid);
 
@@ -120,6 +120,7 @@ const TodoItemView = () => {
         const collaspsibleOnClick = () => {
             const collapsibleButtons = document.querySelectorAll(".flex-content todo-details collapsible-hidden");
             collapsibleButtons.forEach(button => {
+                console.log(e);
                 button.addEventListener('click', e => toggleCollapsible(e.sytle.display))
             });
         }
