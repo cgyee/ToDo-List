@@ -24,7 +24,7 @@ const Project = (options) => {
         return myTasksArr.every(taskID =>  taskID != thisID ? true: false);
     }; */
 
-    const isValidIDTable = (thisID) => {
+    const isValidID = (thisID) => {
         return myTasksTable.hasOwnProperty(thisID) ? false : true;
     };
 
@@ -38,6 +38,7 @@ const Project = (options) => {
 
 
     const addTask = (thisTask) => {
+        thisTask.setID = createID();
         addTaskToTable(thisTask);
     };
 
@@ -49,7 +50,7 @@ const Project = (options) => {
     }; */
 
     const removeTaskFromTable = (thisID) => {
-        if(isValidIDTable(thisID)){
+        if(isValidID(thisID)){
             delete myTasksTable[thisID];
         }
     };
@@ -61,7 +62,7 @@ const Project = (options) => {
     
     const createID = () => {
         let randNum = Math.floor(Math.random() * 255) +1;
-        while(!isValidIDTable(randNum)) {
+        while(!isValidID(randNum)) {
             randNum = Math.floor(Math.random() * 255) +1
         }
 

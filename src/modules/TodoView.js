@@ -12,39 +12,103 @@ const TodoView = () => {
     };
 
     const TodoViewEvent = (() => {
-    
-        const getTaskInput = () => {
-            const INPUT_ID = "#new-task-todo-input";
-            const INPUT = document.querySelector(INPUT_ID);
-    
-            return INPUT.textContent;
-    
+
+        const toggleAddTaskButton = (bool, id) => {
+            const button = document.querySelector(id);
+            button.disabled = bool;
+        }
+
+        const textIsValid = (id) => {
+            const text = document.querySelector(id);
+            return text.value ? true: false;
         };
 
-        const getTaskDetails = () => {
-            /* const INPUT_ID = "#new-task-todo-input";
-            const INPUT = document.querySelector(INPUT_ID); */
+        const checkAndEnableAddButton = (id) => {
+                let temp = textIsValid(id.input);
+                const bool = !temp;
+
+                toggleAddTaskButton(bool, id.button); 
         }
-    
-        const addTaskOnClick = () => {
+
+        const inputEvent = (id) => {
+            const textarea = document.querySelector(id.input);
+            textarea.addEventListener('keydown', e => {
+                checkAndEnableAddButton(id);
+            })
+        }
+
+        const displayModalonClick = () => {
             const BUTTON_ID = "#new-task-todo-button";
             const BUTTON = document.querySelector(BUTTON_ID);
     
             BUTTON.addEventListener('click', e => {
-                //task = getTaskInput();
                 const modal = document.querySelector('.modal');
                 modal.style.display = "block";
-                //console.log(task);
-
-
-                // eventAggregator.publish("addTask")  
             });
         };
+    
 
-        return {addTaskOnClick};
+        const initEvents = () => {
+            const input = "#new-task-todo-input";
+            const button = "#new-task-todo-button"
+
+            inputEvent({input, button});
+            displayModalonClick();
+
+        }
+
+        const ModalEvent = (() => {
+
+            const clearTextInput = () => {
+                const text = document.querySelector('#modal-text-input');
+                text.value = "";
+            }
+
+            const getTextInput = () => {
+                const text = document.querySelector('#modal-text-input');
+                return text.value;
+            }
+
+            const getToDoTitle = () => {
+                const name = document.querySelector('#new-task-todo-input');
+                return name.value;
+            }
+
+            const createNewTask = () => {
+                title = getToDoTitle();
+                details = getTextInput();
+                eventAggregator.publish("createTask", {title, details});
+            }
+            
+            const addTaskonClick = () => {
+                const button = document.querySelector('#confirm-modal');
+                button.addEventListener('click', e=> createNewTask())
+
+            };
+
+            const closeModal = () => {
+                const button = document.querySelector('#close-modal');
+                button.addEventListener('click', e=> {
+                    const modal = document.querySelector('.modal');
+
+                    modal.style.display = "none";
+                    clearTextInput();
+                })
+            };
+
+            const initEvents = () => {
+                const input = '#modal-text-input';
+                const button = '#confirm-modal';
+                const i = inputEvent({input, button});
+                addTaskonClick();
+                closeModal();
+            }
+
+            initEvents();
+        })()
+
+        initEvents();
     })();
-
-    TodoViewEvent.addTaskOnClick();
 
     eventAggregator.subscribe("projectSelected", eventArgs => {
         const project = eventArgs.project;

@@ -5,7 +5,6 @@ const { Project } = require("../objects/project");
 const SideBarView = () => {
 
     const render = (project) => {
-        console.log("render");
         const RENDER_ID = "#ul-sidebar-projects";
         const RENDER_AREA = document.querySelector(RENDER_ID);
         
@@ -43,8 +42,6 @@ const SideBarView = () => {
             
             projects.forEach(project => {
                 project.addEventListener('click', e => {
-                    console.log(e);
-    
                     eventAggregator.publish("projectSelected", {project: p.getTasks()});
                 });
             });

@@ -6,12 +6,22 @@ import {View} from './modules/View';
 let myProjects = storageAvailable() ? localStorage.getItem("myProjects") : Project("main", 0);
 
 const id = myProjects.createID();
-const p = Project("chris", id);
+const p = Project({"name": "chris", id});
 const c = {id: p.getID(), name: p.getName()};
-
-myProjects.addTask(id, p);
-console.log(myProjects.getName());
-
 View();
 
 eventAggregator.publish("projectAdded", {project: c});
+eventAggregator.subscribe("createTask", eventArgs => {
+    const task = Task(eventArgs);
+    eventArgs.publish("addTask", {task})
+})
+eventAggregator.subscribe("addTask", eventArgs => {
+    const task = eventArgs.task;
+    Project.addTask(task);
+
+    const title = task.getTitle();
+    const details = task.getDetails();
+    const id = task.getID();
+
+    eventAggregator.publish("addTasktoView", {title, details, id})
+})

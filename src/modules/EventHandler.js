@@ -13,8 +13,7 @@ const Events = (name) => {
 
     const fire = (eventArgs) => {
         handlers.forEach(h => {
-            console.log("fire");
-            h(eventArgs);
+           h(eventArgs);
         });
     };
     return {addHandler, removeHandler, fire, myName};
@@ -25,12 +24,10 @@ const eventAggregator = (() => {
 
     const getEventName = (name) => {
         const v = events.filter(event => event.myName == name)[0];
-        console.log(v);
         return v;
     };
 
     const publish = (eventName, eventArgs) => {
-        console.log("pub ", eventName)
         let event = getEventName(eventName);
 
         if(!event) {
@@ -42,9 +39,6 @@ const eventAggregator = (() => {
     };
 
     const subscribe = (eventName, handler) => {
-        console.log("sub ", eventName);
-        console.log("handler ", handler);
-
         let event = getEventName(eventName);
 
         if(!event) {
