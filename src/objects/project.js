@@ -1,7 +1,7 @@
-const Project = (name, id) => {
+const Project = (options) => {
 
-    let myName = name || "";
-    let myID = id || "";
+    let myName = options.name || "";
+    let myID = options.id || "";
     let myTasksTable = {};
 
     const setName = (name) => {
@@ -32,13 +32,13 @@ const Project = (name, id) => {
         myTasksArr.push(thisID);
     }; */
 
-    const addTaskToTable = (thisID, thisTask) => {
-        myTasksTable[thisID] = thisTask;
+    const addTaskToTable = (thisTask) => {
+        myTasksTable[thisTask.id] = thisTask.task;
     };
 
 
-    const addTask = (thisID, thisTask) => {
-        addTaskToTable(thisID, thisTask);
+    const addTask = (thisTask) => {
+        addTaskToTable(thisTask);
     };
 
     /* const removeIDFromArray = (thisID) => {

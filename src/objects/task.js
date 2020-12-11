@@ -1,7 +1,7 @@
-const Task = (title, details,...args) => {
-    let myTitle = title;
-    let myDetails = details;
-    let myID;
+const Task = (options) => {
+    let myTitle = options.title || "";
+    let myDetails = options.details || "";
+    let myID = options.id || 0;
 
     const setTitle = (title) => {
         myTitle = title;

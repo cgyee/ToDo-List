@@ -2,6 +2,7 @@
     --bg-color: rgb(32,32,32);
     --rred: rgb(255, 102, 102);
     --ultrav: rgb(166, 77, 255);
+    --menuGold: rgb(230, 153, 0);
 }
 html {
     background-color: var(--bg-color);
@@ -24,10 +25,14 @@ html {
     border-style: none;
 }
 
+.icon-button:focus {
+    outline: none;
+}
+
 .menu-item {
     background-color:  rgba(0, 71, 179, .0);
     border:  rgba(0, 71, 179, .2);
-    color: rgb(230, 153, 0);
+    color: var(--menuGold);
 }
 .menu-item--left {
     margin-right: 4px;
@@ -113,6 +118,54 @@ html {
     grid-template-rows: repeat(2, 1fr);
 }
 
+.collapsible-hidden {
+    display: none;
+    overflow: hidden;
+    padding: 0px;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    padding-top: 100px;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+
+}
+
+.modal-content {
+    background-color:  var(--bg-color);
+    margin: auto;
+    padding: 20px;
+    background-color:  var(--bg-color);
+    border: 1px solid ;
+    width: 40%;
+    justify-content: space-between;
+}
+
+.modal-content-text {
+    width: 70%;
+    max-height: 50px;
+}
+
+.modal-text {
+    background-color:  var(--bg-color);
+    color: var(--ultrav);
+    width: 100%;
+    max-height: inherit;
+    max-width: inherit;
+    overflow: hidden;
+
+}
+
+.modal-button {
+    background-color: var(--bg-color);
+    color: var(--menuGold);
+}
+
 #page_background {
     overflow: hidden;
 }
@@ -153,7 +206,7 @@ html {
 
 #search-icon {
     position: absolute;
-    color: rgb(230, 153, 0);
+    color: var(--menuGold);
 }
 
 #search-input {
@@ -248,7 +301,15 @@ html {
 
 #new-task-todo-container {
     height: 15%;
+    min-height: 15%;
+    max-height: 20%;
     width: 100%;
+    justify-content: center;
+    align-items: center;
+}
+
+#new-task-container-input {
+    margin-top: 5px;
     justify-content: center;
     align-items: center;
 }
@@ -271,4 +332,11 @@ html {
 
 #new-task-todo-input:hover {
     background-color: rgba(231, 197, 128, .1);
+}
+
+#details-div {
+    width: 100%;
+    min-height: 100%;
+    align-content: center;
+    justify-content: center;
 }

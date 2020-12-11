@@ -26,8 +26,6 @@ const SideBarView = () => {
     };
 
     eventAggregator.subscribe("projectAdded", eventArgs => {
-        console.log("sub1");
-        console.log(eventArgs);
         render(eventArgs.project);
     });
 
@@ -60,7 +58,6 @@ const SideBarView = () => {
     })();
 
     eventAggregator.subscribe("projectAdded", eventArgs => {
-        console.log("sub2");
         SideBarProjEvents.update();});
    
     return {render};

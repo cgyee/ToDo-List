@@ -70,7 +70,7 @@ const TodoItemView = () => {
         const details = thisDetails || "";
 
 
-        const DIV_CLASSNAME = "flex-content todo-details";
+        const DIV_CLASSNAME = "flex-content todo-details collapsible-hidden";
         const P_CLASSNAME = "todo-item-text p-details";
 
         const div = document.createElement('div');
@@ -96,9 +96,34 @@ const TodoItemView = () => {
         div.append(titleLeftFlex(options.title), ViewEditFlex, DetailsCollapsible(options.details));
         
         RENDER_AREA.append(div);
+
+        ToDoItemEvents.collaspsibleOnClick();
+
     };
 
-    eventAggregator.subscribe("addTasktoView", render(eventArgs));
+    const ToDoItemEvents = (() => {
+
+        const toggleCollapsible = (display) => {
+            if(display ==="flex") {
+                display = "none";
+            }
+
+            else {
+                display = "flex";
+            }
+        }
+
+        const collaspsibleOnClick = () => {
+            const collapsibleButtons = document.querySelectorAll(".flex-content todo-details collapsible-hidden");
+            collapsibleButtons.forEach(button => {
+                button.addEventListener('click', e => toggleCollapsible(e.sytle.display))
+            });
+        }
+
+        return {collaspsibleOnClick};
+    })();
+
+    eventAggregator.subscribe("addTasktoView", eventArgs => render(eventArgs));
 };
 
 export {TodoItemView};

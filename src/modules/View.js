@@ -4,6 +4,7 @@ import {TodoView} from './TodoView';
 
 const View = () => {
     SideBarView();
+    TodoItemView();
     TodoView();
 };
 
