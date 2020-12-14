@@ -79,6 +79,16 @@ html {
     padding: 5px 0;
 }
 
+.check-button-todo {
+    border-style: none;
+    background-color: var(--bg-color);
+    color: var(--rred);
+}
+
+.check-button-todo:hover {
+    outline: none;
+}
+
 .todo-item {
     justify-content: space-between;
     padding-top: 10px;
@@ -110,12 +120,12 @@ html {
 
 .p-details {
     width: 80%;
-    height: 80px;
     overflow-y: auto;
 }
 
-.grid-todo {
+.grid-todos {
     grid-template-rows: repeat(2, 1fr);
+    margin-bottom: 10px;
 }
 
 .collapsible-hidden {

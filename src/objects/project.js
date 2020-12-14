@@ -28,26 +28,16 @@ const Project = (options) => {
         return myTasksTable.hasOwnProperty(thisID) ? false : true;
     };
 
-    /* const addTaskIDToArray = (thisID) => {
-        myTasksArr.push(thisID);
-    }; */
-
     const addTaskToTable = (thisTask) => {
         myTasksTable[thisTask.id] = thisTask.task;
     };
 
 
     const addTask = (thisTask) => {
-        thisTask.setID = createID();
+        const id =  createID()
+        thisTask.setID(id);
         addTaskToTable(thisTask);
     };
-
-    /* const removeIDFromArray = (thisID) => {
-        const index = myTasksArr.indexOf(thisID);
-        if(index != -1) {
-            myTasksArr = myTasksArr.filter(task => task != thisID);
-        }
-    }; */
 
     const removeTaskFromTable = (thisID) => {
         if(isValidID(thisID)){
@@ -56,14 +46,13 @@ const Project = (options) => {
     };
 
     const removeTask = (thisID) => {
-        // removeIDFromArray(thisID);
         removeTaskFromTable(thisID);
     };
     
     const createID = () => {
-        let randNum = Math.floor(Math.random() * 255) +1;
+        let randNum = Math.floor(Math.random() * Math.floor(255));
         while(!isValidID(randNum)) {
-            randNum = Math.floor(Math.random() * 255) +1
+            randNum = Math.floor(Math.random() * Math.floor(255));
         }
 
         return randNum;

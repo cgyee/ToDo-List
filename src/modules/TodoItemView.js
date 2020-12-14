@@ -5,10 +5,10 @@ const TodoItemView = () => {
     const RENDER_AREA_ID = "#display-todos";
     const RENDER_AREA = document.querySelector(RENDER_AREA_ID);
 
-    const BUTTON_CLASSNAME = "icon-button todo-item-button ";
+    const BUTTON_CLASSNAME = "icon-button todo-item-button";
     const I_CLASSNAME = "material-icons";
 
-    const titleLeftFlex = (thisTitle) => {
+    const titleLeftFlex = (thisTitle, thisID) => {
 
         const title = thisTitle || "";
 
@@ -22,12 +22,15 @@ const TodoItemView = () => {
         const span = document.createElement('span');
 
         div.className = DIV_CLASSNAME;
-        button.className = BUTTON_CLASSNAME;
+        button.className = "check-button-todo";
         i.className = I_CLASSNAME;
         span.className = SPAN_CLASSNAME;
 
         span.innerText = title;
         i.innerText = I_ICON;
+
+        button.setAttribute("id", `button-${thisID}`);
+        i.setAttribute("id", `check-mark-${thisID}`);
 
         button.append(i);
         div.append(button, span);
@@ -35,14 +38,14 @@ const TodoItemView = () => {
         return div;
     };
 
-    const ViewEditFlex = () => {
+    const ViewEditFlex = (thisID) => {
         
         const buttonOptions = ["expand_more",
                                 "create",
                                 "delete"];
 
         const DIV_CLASSNAME = "flex-content todo-item-options";
-        const BTN_CLASSNAME = BUTTON_CLASSNAME + "todo-item-option";
+        const BTN_CLASSNAME = `${BUTTON_CLASSNAME} todo-item-option`;
 
         const div = document.createElement('div');
         div.className = DIV_CLASSNAME;
@@ -52,9 +55,9 @@ const TodoItemView = () => {
             const button = document.createElement('button');
             const i = document.createElement('i');
 
-            button.id = option;
+            button.id = `${option}-${thisID}`;
 
-            button.className = BTN_CLASSNAME;
+            button.className = option + " " + BTN_CLASSNAME;
             i.className = I_CLASSNAME;
 
             i.textContent = option;
@@ -66,7 +69,7 @@ const TodoItemView = () => {
         return div;
     };
 
-    const DetailsCollapsible = (thisDetails) => {
+    const DetailsCollapsible = (thisDetails, thisID) => {
         const details = thisDetails || "";
 
 
@@ -75,6 +78,8 @@ const TodoItemView = () => {
 
         const div = document.createElement('div');
         const p = document.createElement('p');
+
+        div.setAttribute("id", `details-${thisID}`);
 
         div.className = DIV_CLASSNAME;
         p.className = P_CLASSNAME;
@@ -92,41 +97,74 @@ const TodoItemView = () => {
         const grid = document.createElement('div');
         const div = document.createElement('div');
 
+        grid.setAttribute("id", `grid-${options.id}`);
         div.setAttribute("id", options.id);
 
         grid.className = GRID_CLASSNAME;
         div.className = DIV_CLASSNAME;
 
-        div.append(titleLeftFlex(options.title), ViewEditFlex(), DetailsCollapsible(options.details));
-        grid.append(div);
+        div.append(titleLeftFlex(options.title, options.id), ViewEditFlex(options.id));
+        grid.append(div, DetailsCollapsible(options.details, options.id));
         RENDER_AREA.append(grid);
 
-        ToDoItemEvents.collaspsibleOnClick();
+        const e = ToDoItemEvents();
+        e.initEvents();
 
     };
 
-    const ToDoItemEvents = (() => {
+    const ToDoItemEvents = () => {
+        const gridParent = document.querySelector('#display-todos');
 
-        const toggleCollapsible = (display) => {
-            if(display ==="flex") {
-                display = "none";
-            }
-
-            else {
-                display = "flex";
-            }
+        const toggleCollapsible = (cssClass) => {
+            return cssClass == "flex-content todo-details collapsible-hidden" ? "flex-content todo-details" : "flex-content todo-details collapsible-hidden";
         }
 
-        const collaspsibleOnClick = () => {
-            const collapsibleButtons = document.querySelectorAll(".flex-content todo-details collapsible-hidden");
+        const collapsibleOnClick = (e) => {
+            const targetID = e.target.className === I_CLASSNAME ? e.target.parentElement.id : e.target.id;
+            const id = targetID.slice(12);
+            console.log(targetID);
+            const collapsible = document.querySelector(`#details-${id}`);
+            collapsible.className = toggleCollapsible(collapsible.className);
+        }
+
+        const collapsibleEvent = () => {
+            const collapsibleButtons = document.querySelectorAll(".expand_more");
+
             collapsibleButtons.forEach(button => {
-                console.log(e);
-                button.addEventListener('click', e => toggleCollapsible(e.sytle.display))
+                button.addEventListener('click', collapsibleOnClick);
             });
         }
 
-        return {collaspsibleOnClick};
-    })();
+        const removeOnClick = (e) => {
+            const targetID = e.target.className === "material-icons" ? e.target.id.slice(11) : e.target.id.slice(7);
+            console.log(targetID);
+            const  parent = document.querySelector(`#grid-${targetID}`);
+            let child = parent.firstChild;
+
+
+            while(child.id != targetID) {
+                child = child.nextSibling;
+            }
+            parent.removeChild(child);
+            
+        }
+
+        const completeTaskEvent = () => {
+            // const checkButtons = document.querySelectorAll(`.${BUTTON_CLASSNAME}`);
+            const checkButtons = document.querySelectorAll(".check-button-todo");
+            
+            checkButtons.forEach(button => {
+                button.addEventListener('click', removeOnClick);
+            });
+        }
+
+        const initEvents = () => {
+            collapsibleEvent();
+            completeTaskEvent();
+        }
+
+        return {initEvents};
+    };
 
     eventAggregator.subscribe("addTasktoView", eventArgs => {render(eventArgs)});
 };
