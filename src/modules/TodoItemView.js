@@ -69,23 +69,24 @@ const TodoItemView = () => {
         return div;
     };
 
-    const DetailsCollapsible = (thisDetails, thisID) => {
-        const details = thisDetails || "";
+    const DetailsCollapsible = (specs) => {
+        const details = specs.details || "";
 
 
         const DIV_CLASSNAME = "flex-content todo-details collapsible-hidden";
-        const P_CLASSNAME = "todo-item-text p-details";
+        const SPEC_CLASSNAME = "todo-item-text p-details";
 
         const div = document.createElement('div');
-        const p = document.createElement('p');
+        const element = document.createElement(specs.element);
 
-        div.setAttribute("id", `details-${thisID}`);
+        div.setAttribute("id", `details-${specs.element}-${specs.id}`);
+        element.setAttribute("id", `${specs.element}-${specs.id}`);
 
         div.className = DIV_CLASSNAME;
-        p.className = P_CLASSNAME;
-        p.innerText = details;
+        element.className = SPEC_CLASSNAME;
+        element.innerText = details;
 
-        div.append(p);
+        div.append(element);
         return div;
     };
 
@@ -104,7 +105,9 @@ const TodoItemView = () => {
         div.className = DIV_CLASSNAME;
 
         div.append(titleLeftFlex(options.title, options.id), ViewEditFlex(options.id));
-        grid.append(div, DetailsCollapsible(options.details, options.id));
+        grid.append(div, 
+            DetailsCollapsible({"element":'p', "id": options.id, "details": options.details}),
+            DetailsCollapsible({"element":'textarea', "id": options.id, "details": options.details}));
         RENDER_AREA.append(grid);
 
         const e = ToDoItemEvents();
@@ -113,31 +116,69 @@ const TodoItemView = () => {
     };
 
     const ToDoItemEvents = () => {
-        const gridParent = document.querySelector('#display-todos');
 
         const toggleCollapsible = (cssClass) => {
             return cssClass == "flex-content todo-details collapsible-hidden" ? "flex-content todo-details" : "flex-content todo-details collapsible-hidden";
         }
 
         const collapsibleOnClick = (e) => {
+            expand_more
             const targetID = e.target.className === I_CLASSNAME ? e.target.parentElement.id : e.target.id;
             const id = targetID.slice(12);
-            console.log(targetID);
-            const collapsible = document.querySelector(`#details-${id}`);
+            const collapsible = document.querySelector(`#details-p-${id}`);
             collapsible.className = toggleCollapsible(collapsible.className);
         }
 
         const collapsibleEvent = () => {
-            const collapsibleButtons = document.querySelectorAll(".expand_more");
+            const options = [
+                ".expand_more",
+            ];
 
-            collapsibleButtons.forEach(button => {
-                button.addEventListener('click', collapsibleOnClick);
+            options.forEach(option => {
+                const collapsibleButtons = document.querySelectorAll(option);
+
+                collapsibleButtons.forEach(button => {
+                    button.addEventListener('click', collapsibleOnClick);
+                });
+            });
+        }
+
+        const getTextAreaInput = (text) => {
+            return text ? text : "";
+        }
+
+        const collapsibleOnClickEdit = (e) => {
+            const targetID_BUTTON_Name = "create-";
+            const targetID = e.target.className === I_CLASSNAME ? e.target.parentElement.id : e.target.id;
+            const id = targetID.slice(8);
+            const editCollapsible = document.querySelector(`#details-textarea-${id}`);
+
+            editCollapsible.className = toggleCollapsible(editCollapsible.className);
+
+            // eventAggregator.publish("updateDetails", {"id": id, "details": getTextAreaInput(editCollapsible.textContent)});
+            
+
+        }
+
+        const editEvent = () => {
+            const options = [
+                ".create",
+            ];
+
+            options.forEach(option => {
+                
+                const buttons = document.querySelectorAll(option);
+                console.log(buttons);
+                buttons.forEach(button => {
+                    button.addEventListener('click', collapsibleOnClickEdit);
+                });
             });
         }
 
         const removeOnClick = (e) => {
-            const targetID = e.target.className === "material-icons" ? e.target.id.slice(11) : e.target.id.slice(7);
-            console.log(targetID);
+            const targetID_I_Name = "check_mark-";
+            const targetID_BUTTON_Name = "button-";
+            const targetID = e.target.className === "material-icons" ? e.target.id.slice(targetID_I_Name.length+1) : e.target.id.slice(targetID_BUTTON_Name.length+1);
             const  parent = document.querySelector(`#grid-${targetID}`);
             let child = parent.firstChild;
 
@@ -147,20 +188,28 @@ const TodoItemView = () => {
             }
             parent.removeChild(child);
             
+            //eventAggregator.publish("taskRemovedFromView", {id:targetID});  
         }
 
         const completeTaskEvent = () => {
-            // const checkButtons = document.querySelectorAll(`.${BUTTON_CLASSNAME}`);
-            const checkButtons = document.querySelectorAll(".check-button-todo");
-            
-            checkButtons.forEach(button => {
-                button.addEventListener('click', removeOnClick);
+
+            const options = [
+                ".check-button-todo",
+            ];
+
+            options.forEach(option => {
+                const checkButtons = document.querySelectorAll(option);
+                checkButtons.forEach(button => {
+                    button.addEventListener('click', removeOnClick);
+                });
             });
+            
         }
 
         const initEvents = () => {
             collapsibleEvent();
             completeTaskEvent();
+            editEvent();
         }
 
         return {initEvents};

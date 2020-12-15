@@ -14,7 +14,6 @@ const TodoView = () => {
     const TodoViewEvent = (() => {
 
         const toggleAddTaskButton = (bool, id) => {
-            console.log(bool, id);
             const button = document.querySelector(id);
             button.disabled = bool;
         }
@@ -32,7 +31,6 @@ const TodoView = () => {
         }
 
         const inputEvent = (id) => {
-            console.log(id);
             const textarea = document.querySelector(id.input);
             textarea.addEventListener('keydown', e => {
                 checkAndEnableAddButton(id);
