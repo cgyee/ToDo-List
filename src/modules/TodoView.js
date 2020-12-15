@@ -49,7 +49,7 @@ const TodoView = () => {
     
 
         const initEvents = () => {
-            const input = "#new-task-todo-input";
+            const input = "#new-task-input";
             const button = "#new-task-todo-button"
 
             inputEvent({input, button});
@@ -72,8 +72,13 @@ const TodoView = () => {
             }
 
             const getToDoTitle = () => {
-                const name = document.querySelector('#new-task-todo-input');
+                const name = document.querySelector('#new-task-input');
                 return name.value;
+            }
+
+            const getDate = () => {
+                const date = document.querySelector('#new-task-date');
+                return date.value;
             }
 
             const clearModal = () => {
@@ -85,8 +90,10 @@ const TodoView = () => {
             const createNewTask = () => {
                 const title = getToDoTitle();
                 const details = getTextInput();
+                const date = getDate();
+
                 clearModal();
-                eventAggregator.publish("createTask", {title, details});
+                eventAggregator.publish("createTask", {title, details, date});
             }
             
             const addTaskonClick = () => {

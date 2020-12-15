@@ -20,16 +20,12 @@ const Project = (options) => {
         return myID;
     };
 
-    /* const isValidID = (thisID) => {
-        return myTasksArr.every(taskID =>  taskID != thisID ? true: false);
-    }; */
-
     const isValidID = (thisID) => {
         return myTasksTable.hasOwnProperty(thisID) ? false : true;
     };
 
     const addTaskToTable = (thisTask) => {
-        myTasksTable[thisTask.id] = thisTask.task;
+        myTasksTable[thisTask.getID()] = thisTask;
     };
 
 

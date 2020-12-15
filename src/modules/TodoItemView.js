@@ -42,7 +42,7 @@ const TodoItemView = () => {
         
         const buttonOptions = ["expand_more",
                                 "create",
-                                "delete"];
+                                ];
 
         const DIV_CLASSNAME = "flex-content todo-item-options";
         const BTN_CLASSNAME = `${BUTTON_CLASSNAME} todo-item-option`;
@@ -74,7 +74,7 @@ const TodoItemView = () => {
 
 
         const DIV_CLASSNAME = "flex-content todo-details collapsible-hidden";
-        const SPEC_CLASSNAME = "todo-item-text p-details";
+        const SPEC_CLASSNAME = `todo-item-text ${specs.element}-details`;
 
         const div = document.createElement('div');
         const element = document.createElement(specs.element);
@@ -84,11 +84,32 @@ const TodoItemView = () => {
 
         div.className = DIV_CLASSNAME;
         element.className = SPEC_CLASSNAME;
-        element.innerText = details;
+        element.textContent = details;
 
         div.append(element);
+
+        eventAggregator.subscribe("detailsUpdated", eventArgs => {
+            console.log("detailsUpdated");
+            console.log(eventArgs.details);
+            element.textContent = eventArgs.details;
+        });
         return div;
     };
+
+    const dateFlex = (thisID, thisDate) => {
+        const div =document.createElement('div');
+        const input = document.createElement('input');
+        const id = `dateInput-${thisID}`;
+
+        input.className = "solid-bottom-border new-task-todo-input";        
+        input.setAttribute("id", id);
+        input.setAttribute("placeholder", thisDate);
+        input.disabled = true;
+
+        div.append(input);
+        return div;
+
+    }
 
     const render = (options) => { 
 
@@ -104,7 +125,7 @@ const TodoItemView = () => {
         grid.className = GRID_CLASSNAME;
         div.className = DIV_CLASSNAME;
 
-        div.append(titleLeftFlex(options.title, options.id), ViewEditFlex(options.id));
+        div.append(titleLeftFlex(options.title, options.id), dateFlex(options.id, options.date), ViewEditFlex(options.id));
         grid.append(div, 
             DetailsCollapsible({"element":'p', "id": options.id, "details": options.details}),
             DetailsCollapsible({"element":'textarea', "id": options.id, "details": options.details}));
@@ -122,7 +143,6 @@ const TodoItemView = () => {
         }
 
         const collapsibleOnClick = (e) => {
-            expand_more
             const targetID = e.target.className === I_CLASSNAME ? e.target.parentElement.id : e.target.id;
             const id = targetID.slice(12);
             const collapsible = document.querySelector(`#details-p-${id}`);
@@ -143,21 +163,30 @@ const TodoItemView = () => {
             });
         }
 
-        const getTextAreaInput = (text) => {
-            return text ? text : "";
-        }
-
         const collapsibleOnClickEdit = (e) => {
-            const targetID_BUTTON_Name = "create-";
             const targetID = e.target.className === I_CLASSNAME ? e.target.parentElement.id : e.target.id;
-            const id = targetID.slice(8);
-            const editCollapsible = document.querySelector(`#details-textarea-${id}`);
+            const id = targetID.slice(7);
 
+            const targetButton =  `#create-${id}`;
+            const targetParent = "#details-textarea-"+id;
+            const targetText = `#textarea-${id}`;
+            const tartgetDate = `dateInput-${id}`;
+
+            const button = document.querySelector(targetButton);
+            const editCollapsible = document.querySelector(targetParent);
+            const textarea = document.querySelector(targetText);
+            const datePicker = document.querySelector(tartgetDate);
+
+            textarea.addEventListener('keydown', e=> {
+                button.disabled = e.target.value ? false : true;
+            })
+            console.log("textarea: ", textarea.value);
+
+            if(textarea.value && editCollapsible.className === "flex-content todo-details") {
+                console.log("editCollapsetext: ", textarea.value);
+                eventAggregator.publish("updateDetails", {"id": id, "details": textarea.value});
+            }
             editCollapsible.className = toggleCollapsible(editCollapsible.className);
-
-            // eventAggregator.publish("updateDetails", {"id": id, "details": getTextAreaInput(editCollapsible.textContent)});
-            
-
         }
 
         const editEvent = () => {
@@ -168,7 +197,6 @@ const TodoItemView = () => {
             options.forEach(option => {
                 
                 const buttons = document.querySelectorAll(option);
-                console.log(buttons);
                 buttons.forEach(button => {
                     button.addEventListener('click', collapsibleOnClickEdit);
                 });
