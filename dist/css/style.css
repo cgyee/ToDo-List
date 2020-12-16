@@ -204,6 +204,11 @@ html {
     transform: scale(1.1);
 }
 
+.alert {
+    transform: scale(1.1);
+    color: var(--menuGold);
+}
+
 #page_background {
     overflow: hidden;
 }
@@ -227,6 +232,13 @@ html {
     justify-content: space-between;
     height: 100%;
     width: 100%;
+}
+
+#character-count {
+    top: 50%;
+    left: 50%;
+    transform: translate(25%, 25%);
+    color: var(--ultrav);
 }
 
 #left-items-container {

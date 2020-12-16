@@ -89,8 +89,6 @@ const TodoItemView = () => {
         div.append(element);
 
         eventAggregator.subscribe("detailsUpdated", eventArgs => {
-            console.log("detailsUpdated");
-            console.log(eventArgs.details);
             element.textContent = eventArgs.details;
         });
         return div;
@@ -104,6 +102,7 @@ const TodoItemView = () => {
         input.className = "solid-bottom-border new-task-todo-input";        
         input.setAttribute("id", id);
         input.setAttribute("placeholder", thisDate);
+        input.setAttribute("type", "date");
         input.disabled = true;
 
         div.append(input);
@@ -140,14 +139,14 @@ const TodoItemView = () => {
 
         const toggleCollapsible = (cssClass) => {
             return cssClass == "flex-content todo-details collapsible-hidden" ? "flex-content todo-details" : "flex-content todo-details collapsible-hidden";
-        }
+        };
 
         const collapsibleOnClick = (e) => {
             const targetID = e.target.className === I_CLASSNAME ? e.target.parentElement.id : e.target.id;
             const id = targetID.slice(12);
             const collapsible = document.querySelector(`#details-p-${id}`);
             collapsible.className = toggleCollapsible(collapsible.className);
-        }
+        };
 
         const collapsibleEvent = () => {
             const options = [
@@ -161,7 +160,7 @@ const TodoItemView = () => {
                     button.addEventListener('click', collapsibleOnClick);
                 });
             });
-        }
+        };
 
         const collapsibleOnClickEdit = (e) => {
             const targetID = e.target.className === I_CLASSNAME ? e.target.parentElement.id : e.target.id;
@@ -170,24 +169,25 @@ const TodoItemView = () => {
             const targetButton =  `#create-${id}`;
             const targetParent = "#details-textarea-"+id;
             const targetText = `#textarea-${id}`;
-            const tartgetDate = `dateInput-${id}`;
+            const tartgetDate = `#dateInput-${id}`;
 
             const button = document.querySelector(targetButton);
             const editCollapsible = document.querySelector(targetParent);
             const textarea = document.querySelector(targetText);
             const datePicker = document.querySelector(tartgetDate);
 
+
             textarea.addEventListener('keydown', e=> {
                 button.disabled = e.target.value ? false : true;
-            })
-            console.log("textarea: ", textarea.value);
+            });
 
             if(textarea.value && editCollapsible.className === "flex-content todo-details") {
-                console.log("editCollapsetext: ", textarea.value);
                 eventAggregator.publish("updateDetails", {"id": id, "details": textarea.value});
             }
+
+            datePicker.disabled = datePicker.disabled ? false : true;
             editCollapsible.className = toggleCollapsible(editCollapsible.className);
-        }
+        };
 
         const editEvent = () => {
             const options = [
@@ -201,7 +201,7 @@ const TodoItemView = () => {
                     button.addEventListener('click', collapsibleOnClickEdit);
                 });
             });
-        }
+        };
 
         const removeOnClick = (e) => {
             const targetID_I_Name = "check_mark-";
@@ -210,14 +210,11 @@ const TodoItemView = () => {
             const  parent = document.querySelector(`#grid-${targetID}`);
             let child = parent.firstChild;
 
-
             while(child.id != targetID) {
                 child = child.nextSibling;
             }
             parent.removeChild(child);
-            
-            //eventAggregator.publish("taskRemovedFromView", {id:targetID});  
-        }
+        };
 
         const completeTaskEvent = () => {
 
@@ -232,13 +229,13 @@ const TodoItemView = () => {
                 });
             });
             
-        }
+        };
 
         const initEvents = () => {
             collapsibleEvent();
             completeTaskEvent();
             editEvent();
-        }
+        };
 
         return {initEvents};
     };

@@ -16,7 +16,7 @@ const TodoView = () => {
         const toggleAddTaskButton = (bool, id) => {
             const button = document.querySelector(id);
             button.disabled = bool;
-        }
+        };
 
         const textIsValid = (id) => {
             const text = document.querySelector(id);
@@ -28,14 +28,14 @@ const TodoView = () => {
                 const bool = !temp;
 
                 toggleAddTaskButton(bool, id.button); 
-        }
+        };
 
         const inputEvent = (id) => {
             const textarea = document.querySelector(id.input);
             textarea.addEventListener('keydown', e => {
                 checkAndEnableAddButton(id);
             });
-        }
+        };
 
         const displayModalonClick = () => {
             const BUTTON_ID = "#new-task-todo-button";
@@ -46,46 +46,55 @@ const TodoView = () => {
                 modal.style.display = "block";
             });
         };
-    
 
         const initEvents = () => {
             const input = "#new-task-input";
-            const button = "#new-task-todo-button"
+            const button = "#new-task-todo-button";
 
             inputEvent({input, button});
             displayModalonClick();
 
-        }
+        };
 
         initEvents();
 
         const ModalEvent = (() => {
+            const MAX_LENGTH = 120;
 
             const clearTextInput = () => {
                 const text = document.querySelector('#modal-text-input');
                 text.value = "";
-            }
+            };
 
             const getTextInput = () => {
                 const text = document.querySelector('#modal-text-input');
                 return text.value;
-            }
+            };
+
+            const changeCharacterCount = () => {
+                const char = document.querySelector('#character-count');
+                const charCount = MAX_LENGTH - getTextInput().length;
+                console.log(charCount);
+
+                char.textContent = charCount;
+                char.style.color = charCount <= 0 ? "var(--menuGold)" : "var(--ultrav)";
+            };
 
             const getToDoTitle = () => {
                 const name = document.querySelector('#new-task-input');
                 return name.value;
-            }
+            };
 
             const getDate = () => {
                 const date = document.querySelector('#new-task-date');
                 return date.value;
-            }
+            };
 
             const clearModal = () => {
                     const modal = document.querySelector('.modal');
                     modal.style.display = "none";
                     clearTextInput();
-            }
+            };
 
             const createNewTask = () => {
                 const title = getToDoTitle();
@@ -94,7 +103,7 @@ const TodoView = () => {
 
                 clearModal();
                 eventAggregator.publish("createTask", {title, details, date});
-            }
+            };
             
             const addTaskonClick = () => {
                 const button = document.querySelector('#confirm-modal');
@@ -106,19 +115,27 @@ const TodoView = () => {
                 const button = document.querySelector('#close-modal');
                 button.addEventListener('click', e=> {
                     clearModal();
-                })
+                });
+            };
+
+            const textAreaEvent = () => {
+                const input = document.querySelector('#modal-text-input');
+                input.addEventListener('keydown', e => {
+                    changeCharacterCount();
+                });
             };
 
             const initEvents = () => {
                 const input = '#modal-text-input';
                 const button = '#confirm-modal';
                 inputEvent({input, button});
+                textAreaEvent();
                 addTaskonClick();
                 closeModal();
-            }
+            };
 
             initEvents();
-        })()
+        })();
 
     })();
 
@@ -134,15 +151,6 @@ const TodoView = () => {
             eventAggregator.publish("addTasktoView", {title, details, id});
         } 
     });
-
-    /* eventAggregator.subscribe("addTask", eventArgs => {
-        const task = eventArgs.task;
-        const title = task.getTitle();
-        const details = task.getDetails();
-        const id = task.getID();
-
-        eventAggregator.publish("addTasktoView", {title, details, id});
-    }); */
 };
 
 export {TodoView};

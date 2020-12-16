@@ -43,9 +43,6 @@
                         </div>
                     </div>
                     <div class="main" id="main-display">
-                        <div id="display-header">
-
-                        </div>
                         <div id="display-out-container">
                             <div class="flex-content f-column" id="display-in-container">
                                 <div class="flex content f-column" id="new-task-todo-container">
@@ -60,8 +57,11 @@
                                     <div class="modal">
                                         <div class="flex-content modal-content">
                                             <div class="modal-content-text"> 
-                                                <textarea class="modal-text" id="modal-text-input">peeeepppeeeepooopope</textarea>
-                                                <input type="date" class="solid-bottom-border new-task-todo-input"id="new-task-date">
+                                                <textarea maxlength="120" class="modal-text" id="modal-text-input"></textarea>
+                                                <div class="flex-content">
+                                                    <input type="date" class="solid-bottom-border new-task-todo-input"id="new-task-date">
+                                                    <span class="todo-item-text" id="character-count">120</span>
+                                                </div>
                                             </div>
                                             <div class="modal-content-button">
                                                 <button class="icon-button modal-button" id="confirm-modal" disabled><i class="material-icons">add</i></button>
