@@ -38,7 +38,5 @@ eventAggregator.subscribe("addTask", eventArgs => {
     const details = task.getDetails();
     const id = task.getID();
     const date = task.getDate();
-    console.log(date);
-
     eventAggregator.publish("addTasktoView", {title, details, id, date});
 })
