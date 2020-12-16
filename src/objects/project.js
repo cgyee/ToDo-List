@@ -56,9 +56,17 @@ const Project = (options) => {
 
     const getTasks = () => {
         return myTasksTable;
-    }
+    };
 
-    return {setName, setID, getName, getID, addTask, removeTask, createID, getTasks};
+    const updateDetails = (options) => {
+        if(options.id) {
+            const task = myTasksTable[options.id];
+            task.setDetails(options.details);
+            task.setDate(options.date);
+        }
+    };
+
+    return {setName, setID, getName, getID, addTask, removeTask, createID, getTasks, updateDetails};
 };
 
 export {Project};

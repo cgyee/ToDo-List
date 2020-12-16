@@ -123,7 +123,7 @@ const TodoItemView = () => {
         const grid = document.createElement('div');
         const div = document.createElement('div');
 
-        grid.setAttribute("id", `grid-${options.id}`);
+        grid.setAttribute('id', `grid-${options.id}`);
         div.setAttribute("id", options.id);
 
         grid.className = GRID_CLASSNAME;
@@ -149,7 +149,6 @@ const TodoItemView = () => {
         const collapsibleOnClick = (e) => {
             const targetID = e.target.className === I_CLASSNAME ? e.target.parentElement.id : e.target.id;
             const id = targetID.slice(12);
-            console.log(id);
             const collapsible = document.querySelector(`#details-p-${id}`);
             collapsible.className = toggleCollapsible(collapsible.className);
         };
@@ -162,7 +161,6 @@ const TodoItemView = () => {
         const collapsibleOnClickEdit = (e) => {
             const targetID = e.target.className === I_CLASSNAME ? e.target.parentElement.id : e.target.id;
             const id = targetID.slice(7);
-            console.log(id);
 
             const targetButton =  `#create-${id}`;
             const targetParent = "#details-textarea-"+id;
@@ -188,35 +186,35 @@ const TodoItemView = () => {
         };
 
         const editEvent = (id) => {
-            console.log(id);
             const button = document.querySelector(`#create-${id}`);
             button.addEventListener('click', collapsibleOnClickEdit);
 
         };
 
-        const removeOnClick = (e) => {
-            const targetID_I_Name = "check_mark-";
-            const targetID = e.target.className === "material-icons" ? e.target.parentElement.id : e.target.id;
-            const id = targetID.slice(7);
-            console.log(id);
-            const  parent = document.querySelector(`#grid-${id}`);
-            let child = parent.firstChild;
+        const removeOnClick = (id) => {
+            const targetID = `grid-${id}`;
+            const parent = document.querySelector('#display-todos');
+            let children = parent.childNodes;
 
-            while(child.id != targetID) {
-                child = child.nextSibling;
-            }
-            parent.removeChild(child);
+            Array.from(children).forEach(child => {
+                if(child.id == targetID) {
+                    parent.removeChild(child);
+                    const id = child.id;
+                    eventAggregator.publish("removedTaskFromView", {id});
+                }
+
+            });
         };
 
         const completeTaskEvent = (id) => {
-            const button = document.querySelector(`button-${id}`);
-            button.addEventListener('click', removeOnClick);
+            const button = document.querySelector(`#button-${id}`);
+            button.addEventListener('click', e=>removeOnClick(id));
         };
 
         const initEvents = (id) => {
             const thisID = id || "";
             collapsibleEvent(thisID);
-            // completeTaskEvent(thisID);
+            completeTaskEvent(thisID);
             editEvent(thisID);
         };
 

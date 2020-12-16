@@ -39,4 +39,9 @@ eventAggregator.subscribe("addTask", eventArgs => {
     const id = task.getID();
     const date = task.getDate();
     eventAggregator.publish("addTasktoView", {title, details, id, date});
+});
+
+eventAggregator.subscribe("removedTaskFromView", eventArgs=> {
+    const id = eventArgs.id || "";
+    myProjects.removeTask(id);
 })
