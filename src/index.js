@@ -15,19 +15,22 @@ View();
 eventAggregator.publish("projectAdded", {project: c});
 eventAggregator.subscribe("createTask", eventArgs => {
     const task = Task(eventArgs);
-    eventAggregator.publish("addTask", {task})
+    eventAggregator.publish("addTask", {task});
 });
 
 eventAggregator.subscribe("updateDetails", eventArgs => {
     const tasks = myProjects.getTasks();
     const details = eventArgs.details;
+    const date = eventArgs.date;
     const id =  eventArgs.id;
-    console.log(details);
 
-    tasks[id].setDetails({details});
+    const task = tasks[id];
+    task.setDetails(details);
+    task.setDate(date);
     
-    eventAggregator.publish("detailsUpdated", {"details":eventArgs.details});
-})
+    eventAggregator.publish("detailsUpdated", {details, date});
+});
+
 eventAggregator.subscribe("addTask", eventArgs => {
     const task = eventArgs.task;
     myProjects.addTask(task);
@@ -35,6 +38,7 @@ eventAggregator.subscribe("addTask", eventArgs => {
     const details = task.getDetails();
     const id = task.getID();
     const date = task.getDate();
+    console.log(date);
 
-    eventAggregator.publish("addTasktoView", {title, details, id, date})
+    eventAggregator.publish("addTasktoView", {title, details, id, date});
 })

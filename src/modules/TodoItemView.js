@@ -71,6 +71,7 @@ const TodoItemView = () => {
 
     const DetailsCollapsible = (specs) => {
         const details = specs.details || "";
+        const MAX_LENGTH = 120;
 
 
         const DIV_CLASSNAME = "flex-content todo-details collapsible-hidden";
@@ -81,6 +82,10 @@ const TodoItemView = () => {
 
         div.setAttribute("id", `details-${specs.element}-${specs.id}`);
         element.setAttribute("id", `${specs.element}-${specs.id}`);
+
+        if(specs.element === 'textarea') {
+            element.setAttribute("maxlength", MAX_LENGTH);
+        }
 
         div.className = DIV_CLASSNAME;
         element.className = SPEC_CLASSNAME;
@@ -101,7 +106,7 @@ const TodoItemView = () => {
 
         input.className = "solid-bottom-border new-task-todo-input";        
         input.setAttribute("id", id);
-        input.setAttribute("placeholder", thisDate);
+        input.setAttribute("value", thisDate);
         input.setAttribute("type", "date");
         input.disabled = true;
 
@@ -131,7 +136,7 @@ const TodoItemView = () => {
         RENDER_AREA.append(grid);
 
         const e = ToDoItemEvents();
-        e.initEvents();
+        e.initEvents(options.id);
 
     };
 
@@ -144,27 +149,20 @@ const TodoItemView = () => {
         const collapsibleOnClick = (e) => {
             const targetID = e.target.className === I_CLASSNAME ? e.target.parentElement.id : e.target.id;
             const id = targetID.slice(12);
+            console.log(id);
             const collapsible = document.querySelector(`#details-p-${id}`);
             collapsible.className = toggleCollapsible(collapsible.className);
         };
 
-        const collapsibleEvent = () => {
-            const options = [
-                ".expand_more",
-            ];
-
-            options.forEach(option => {
-                const collapsibleButtons = document.querySelectorAll(option);
-
-                collapsibleButtons.forEach(button => {
-                    button.addEventListener('click', collapsibleOnClick);
-                });
-            });
+        const collapsibleEvent = (id) => {
+            const button = document.querySelector(`#expand_more-${id}`); 
+            button.addEventListener('click', collapsibleOnClick);
         };
 
         const collapsibleOnClickEdit = (e) => {
             const targetID = e.target.className === I_CLASSNAME ? e.target.parentElement.id : e.target.id;
             const id = targetID.slice(7);
+            console.log(id);
 
             const targetButton =  `#create-${id}`;
             const targetParent = "#details-textarea-"+id;
@@ -182,32 +180,26 @@ const TodoItemView = () => {
             });
 
             if(textarea.value && editCollapsible.className === "flex-content todo-details") {
-                eventAggregator.publish("updateDetails", {"id": id, "details": textarea.value});
+                eventAggregator.publish("updateDetails", {"id": id, "details": textarea.value, "date": datePicker.value});
             }
 
             datePicker.disabled = datePicker.disabled ? false : true;
             editCollapsible.className = toggleCollapsible(editCollapsible.className);
         };
 
-        const editEvent = () => {
-            const options = [
-                ".create",
-            ];
+        const editEvent = (id) => {
+            console.log(id);
+            const button = document.querySelector(`#create-${id}`);
+            button.addEventListener('click', collapsibleOnClickEdit);
 
-            options.forEach(option => {
-                
-                const buttons = document.querySelectorAll(option);
-                buttons.forEach(button => {
-                    button.addEventListener('click', collapsibleOnClickEdit);
-                });
-            });
         };
 
         const removeOnClick = (e) => {
             const targetID_I_Name = "check_mark-";
-            const targetID_BUTTON_Name = "button-";
-            const targetID = e.target.className === "material-icons" ? e.target.id.slice(targetID_I_Name.length+1) : e.target.id.slice(targetID_BUTTON_Name.length+1);
-            const  parent = document.querySelector(`#grid-${targetID}`);
+            const targetID = e.target.className === "material-icons" ? e.target.parentElement.id : e.target.id;
+            const id = targetID.slice(7);
+            console.log(id);
+            const  parent = document.querySelector(`#grid-${id}`);
             let child = parent.firstChild;
 
             while(child.id != targetID) {
@@ -216,31 +208,22 @@ const TodoItemView = () => {
             parent.removeChild(child);
         };
 
-        const completeTaskEvent = () => {
-
-            const options = [
-                ".check-button-todo",
-            ];
-
-            options.forEach(option => {
-                const checkButtons = document.querySelectorAll(option);
-                checkButtons.forEach(button => {
-                    button.addEventListener('click', removeOnClick);
-                });
-            });
-            
+        const completeTaskEvent = (id) => {
+            const button = document.querySelector(`button-${id}`);
+            button.addEventListener('click', removeOnClick);
         };
 
-        const initEvents = () => {
-            collapsibleEvent();
-            completeTaskEvent();
-            editEvent();
+        const initEvents = (id) => {
+            const thisID = id || "";
+            collapsibleEvent(thisID);
+            // completeTaskEvent(thisID);
+            editEvent(thisID);
         };
 
         return {initEvents};
     };
 
-    eventAggregator.subscribe("addTasktoView", eventArgs => {render(eventArgs)});
+    eventAggregator.subscribe("addTasktoView", eventArgs => {render(eventArgs);});
 };
 
 export {TodoItemView};

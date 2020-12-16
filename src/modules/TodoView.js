@@ -74,7 +74,6 @@ const TodoView = () => {
             const changeCharacterCount = () => {
                 const char = document.querySelector('#character-count');
                 const charCount = MAX_LENGTH - getTextInput().length;
-                console.log(charCount);
 
                 char.textContent = charCount;
                 char.style.color = charCount <= 0 ? "var(--menuGold)" : "var(--ultrav)";
@@ -107,7 +106,7 @@ const TodoView = () => {
             
             const addTaskonClick = () => {
                 const button = document.querySelector('#confirm-modal');
-                button.addEventListener('click', e => createNewTask())
+                button.addEventListener('click', e => createNewTask());
 
             };
 

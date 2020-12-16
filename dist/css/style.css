@@ -112,6 +112,7 @@ html {
 }
 .todo-item-text {
     color: rgb(247, 247, 247);
+    width: 120px;
 }
 
 .todo-details {
