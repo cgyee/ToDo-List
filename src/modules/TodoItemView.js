@@ -222,6 +222,17 @@ const TodoItemView = () => {
     };
 
     eventAggregator.subscribe("addTasktoView", eventArgs => {render(eventArgs);});
+    eventAggregator.subscribe("addMultipleTaskstoView", eventArgs => {
+        const tasks = eventArgs.tasks || {};
+        console.log(tasks);
+        for(let task in tasks) {
+            const title = tasks[task].getTitle();
+            const id = tasks[task].getID();
+            const date = tasks[task].getDate();
+            const details = tasks[task].getDetails();
+            eventAggregator.publish("addTasktoView", {title, id, date, details});
+        };
+    });
 };
 
 export {TodoItemView};

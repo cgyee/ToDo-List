@@ -1,18 +1,27 @@
 import {Project} from './objects/project';
 import {Task} from './objects/task';
-import {storageAvailable} from './modules/localStorage';
 import { eventAggregator } from './modules/EventHandler';
 import {View} from './modules/View';
+import {save, load, ProjectSetup} from './objects/helper'
 
-//let myProjects = storageAvailable() ? localStorage.getItem("myProjects") : Project("main", 0);
-let myProjects = Project("main", 0);
+// let myProjects = localStorage.getItem("myProjects");
+// console.log(myProjects);
+let project = load();
+const myProjects = Project({"name": "name", "id":0});
+if(project) {
+    ProjectSetup(myProjects, project);
+}
 
 const id = myProjects.createID();
-const p = Project({"name": "chris", id});
-const c = {id: p.getID(), name: p.getName()};
+const p = Project({"name": "default", id});
+const cappa = {id: p.getID(), name: p.getName()};
 View();
 
-eventAggregator.publish("projectAdded", {project: c});
+if(project) {
+    eventAggregator.publish("addMultipleTaskstoView", {"tasks":myProjects.getTasks()});
+}
+
+eventAggregator.publish("projectAdded", {project: cappa});
 eventAggregator.subscribe("createTask", eventArgs => {
     const task = Task(eventArgs);
     eventAggregator.publish("addTask", {task});
@@ -38,6 +47,10 @@ eventAggregator.subscribe("addTask", eventArgs => {
     const details = task.getDetails();
     const id = task.getID();
     const date = task.getDate();
+
+    save(myProjects);
+    load();
+
     eventAggregator.publish("addTasktoView", {title, details, id, date});
 });
 

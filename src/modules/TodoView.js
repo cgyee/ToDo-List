@@ -30,6 +30,10 @@ const TodoView = () => {
                 toggleAddTaskButton(bool, id.button); 
         };
 
+        const resetNewTaskButton = () => {
+            toggleAddTaskButton(true, "#new-task-todo-button");
+        }
+
         const inputEvent = (id) => {
             const textarea = document.querySelector(id.input);
             textarea.addEventListener('keydown', e => {
@@ -66,6 +70,21 @@ const TodoView = () => {
                 text.value = "";
             };
 
+            const clearTitleInput = () => {
+                const text = document.querySelector('#new-task-input');
+                text.value = "";
+            };
+
+            const clearDateInput = () => {
+                const input = document.querySelector('#new-task-date');
+                input.value = "";
+            }
+
+            const resetCharacterCount = () => {
+                const count = document.querySelector('#character-count');
+                count.textContent = "120";
+            }
+
             const getTextInput = () => {
                 const text = document.querySelector('#modal-text-input');
                 return text.value;
@@ -93,6 +112,10 @@ const TodoView = () => {
                     const modal = document.querySelector('.modal');
                     modal.style.display = "none";
                     clearTextInput();
+                    clearTitleInput();
+                    clearDateInput();
+                    resetCharacterCount();
+                    resetNewTaskButton();
             };
 
             const createNewTask = () => {

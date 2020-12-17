@@ -87,6 +87,8 @@ html {
 
 .check-button-todo:hover {
     outline: none;
+    transform: scale(1.1);
+    color: yellowgreen;
 }
 
 .todo-item {
@@ -360,7 +362,7 @@ html {
 }
 
 #new-task-container-input {
-    margin-top: 5px;
+    margin-top: 14px;
     justify-content: center;
     align-items: center;
 }
@@ -368,6 +370,14 @@ html {
 #new-task-todo-button {
     background-color: rgb(32,32,32);
     color: var(--rred);
+    position: absolute;
+    top: auto;
+    left: 55%;
+}
+
+#new-task-todo-button:hover {
+    transform: scale(1.1);
+    color: yellowgreen;
 }
 
 #details-div {

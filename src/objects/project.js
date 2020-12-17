@@ -2,7 +2,7 @@ const Project = (options) => {
 
     let myName = options.name || "";
     let myID = options.id || "";
-    let myTasksTable = {};
+    let myTasksTable = options.table || {};
 
     const setName = (name) => {
         myName = name;
@@ -58,6 +58,30 @@ const Project = (options) => {
         return myTasksTable;
     };
 
+    const getTasksforStorage = () => {
+        let tasks = {}
+
+        for (let task in myTasksTable) {
+            console.log(task);
+            const id = myTasksTable[task].getID();
+            tasks[`task-${id}`] = {};
+        }
+
+        for (let task in myTasksTable) {
+            const id = myTasksTable[task].getID();
+            const title = myTasksTable[task].getTitle();
+            const date = myTasksTable[task].getDate();
+            const details = myTasksTable[task].getDetails();
+
+            tasks[`task-${id}`] = { id,
+                        title,
+                        date,
+                        details
+            };
+        }
+        return tasks;
+    }
+
     const updateDetails = (options) => {
         if(options.id) {
             const task = myTasksTable[options.id];
@@ -66,7 +90,7 @@ const Project = (options) => {
         }
     };
 
-    return {setName, setID, getName, getID, addTask, removeTask, createID, getTasks, updateDetails};
+    return {setName, setID, getName, getID, addTask, removeTask, createID, getTasks, updateDetails, getTasksforStorage};
 };
 
 export {Project};
