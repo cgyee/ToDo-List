@@ -4,8 +4,6 @@ import { eventAggregator } from './modules/EventHandler';
 import {View} from './modules/View';
 import {save, load, ProjectSetup} from './objects/helper'
 
-// let myProjects = localStorage.getItem("myProjects");
-// console.log(myProjects);
 let project = load();
 const myProjects = Project({"name": "name", "id":0});
 if(project) {
@@ -23,7 +21,7 @@ if(project) {
 
 eventAggregator.subscribe("saveProject", eventArgs => {
     save(myProjects);
-})
+});
 
 eventAggregator.publish("projectAdded", {project: cappa});
 eventAggregator.subscribe("createTask", eventArgs => {

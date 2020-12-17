@@ -18,7 +18,7 @@ const Task = (options) => {
 
     const setDate = (date) => {
         myDate = date;
-    }
+    };
 
     const getTitle = () => {
         return myTitle;

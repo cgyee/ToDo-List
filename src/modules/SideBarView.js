@@ -39,12 +39,12 @@ const SideBarView = () => {
         };
     
         const updateProjectListener = (projects) => {
-            
-            projects.forEach(project => {
-                project.addEventListener('click', e => {
-                    eventAggregator.publish("projectSelected", {project: p.getTasks()});
-                });
-            });
+            //Todo
+            // projects.forEach(project => {
+            //     project.addEventListener('click', e => {
+            //         eventAggregator.publish("projectSelected", {});
+            //     });
+            // });
         };
     
         const update = () => {

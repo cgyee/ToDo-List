@@ -199,7 +199,8 @@ const TodoItemView = () => {
             Array.from(children).forEach(child => {
                 if(child.id == targetID) {
                     parent.removeChild(child);
-                    const id = child.id;
+                    const targetID = child.id;
+                    const id = targetID.slice(5);
                     eventAggregator.publish("removedTaskFromView", {id});
                 }
 
@@ -224,7 +225,6 @@ const TodoItemView = () => {
     eventAggregator.subscribe("addTasktoView", eventArgs => {render(eventArgs);});
     eventAggregator.subscribe("addMultipleTaskstoView", eventArgs => {
         const tasks = eventArgs.tasks || {};
-        console.log(tasks);
         for(let task in tasks) {
             const title = tasks[task].getTitle();
             const id = tasks[task].getID();

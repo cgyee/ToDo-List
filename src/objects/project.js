@@ -30,13 +30,13 @@ const Project = (options) => {
 
 
     const addTask = (thisTask) => {
-        const id =  createID()
+        const id =  createID();
         thisTask.setID(id);
         addTaskToTable(thisTask);
     };
 
     const removeTaskFromTable = (thisID) => {
-        if(isValidID(thisID)){
+        if(myTasksTable[thisID]){
             delete myTasksTable[thisID];
         }
     };
@@ -59,7 +59,7 @@ const Project = (options) => {
     };
 
     const getTasksforStorage = () => {
-        let tasks = {}
+        let tasks = {};
 
         for (let task in myTasksTable) {
             const id = myTasksTable[task].getID();
