@@ -51,6 +51,13 @@ html {
 
 .center-list-item {
     text-align: center;
+    background-color: var(--bg-color);
+    color: var(--rred);
+    border: none;
+}
+
+.center-list-item:focus {
+    border:  1px solid var(--menuGold);
 }
 
 .sidebar-project-list_item {
@@ -77,6 +84,11 @@ html {
 
 .sidebar-quicklinks {
     padding: 5px 0;
+}
+
+.project-edit {
+    padding: 10px;
+    justify-content: space-between;
 }
 
 .check-button-todo {

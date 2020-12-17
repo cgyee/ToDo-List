@@ -19,8 +19,7 @@ const saveProject = (project) => {
 const save = (project) => {
     const tasks = saveTask(project);
     const thisproject = saveProject(project);
-    const project_storage = JSON.stringify({"projectInfo":thisproject, "tasks":tasks})
-    console.log(project_storage);
+    const project_storage = JSON.stringify({"projectInfo":thisproject, "tasks":tasks});
 
     localStorage.setItem("project", project_storage);
 }

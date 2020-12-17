@@ -62,7 +62,6 @@ const Project = (options) => {
         let tasks = {}
 
         for (let task in myTasksTable) {
-            console.log(task);
             const id = myTasksTable[task].getID();
             tasks[`task-${id}`] = {};
         }

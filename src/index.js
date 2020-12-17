@@ -21,6 +21,10 @@ if(project) {
     eventAggregator.publish("addMultipleTaskstoView", {"tasks":myProjects.getTasks()});
 }
 
+eventAggregator.subscribe("saveProject", eventArgs => {
+    save(myProjects);
+})
+
 eventAggregator.publish("projectAdded", {project: cappa});
 eventAggregator.subscribe("createTask", eventArgs => {
     const task = Task(eventArgs);
@@ -48,13 +52,12 @@ eventAggregator.subscribe("addTask", eventArgs => {
     const id = task.getID();
     const date = task.getDate();
 
-    save(myProjects);
-    load();
-
+    eventAggregator.publish("saveProject", {});
     eventAggregator.publish("addTasktoView", {title, details, id, date});
 });
 
 eventAggregator.subscribe("removedTaskFromView", eventArgs=> {
     const id = eventArgs.id || "";
     myProjects.removeTask(id);
-})
+    eventAggregator.publish("saveProject", {});
+});
