@@ -56,8 +56,15 @@ html {
     border: none;
 }
 
-.center-list-item:focus {
-    border:  1px solid var(--menuGold);
+.center-list-item-enabled {
+    border:  1px solid white;
+    transform: scale(1.1);
+    border-radius: 1px;
+}
+
+center-list-item-enabled:focus {
+    outline: none;
+    border: none;
 }
 
 .sidebar-project-list_item {
@@ -286,6 +293,21 @@ html {
     color: var(--ultrav);
 }
 
+#new-project-input {
+    border: 1px solid white;
+    border-radius: 1.5px;
+}
+
+#new-project-input:focus {
+    outline: none;
+    transform: scale(1.1);
+}
+
+
+#new-project-button:hover {
+    transform: scale(1.1);
+    color: yellowgreen;
+}
 #main-app {
     display: flex;
     flex-direction: row;
