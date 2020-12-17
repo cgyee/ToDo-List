@@ -23,6 +23,10 @@ eventAggregator.subscribe("saveProject", eventArgs => {
     save(myProjects);
 });
 
+eventAggregator.subscribe("updateProjectName", eventArgs => {
+    
+} )
+
 eventAggregator.publish("projectAdded", {project: cappa});
 eventAggregator.subscribe("createTask", eventArgs => {
     const task = Task(eventArgs);

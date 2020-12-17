@@ -73,4 +73,17 @@ const ProjectSetup = (project, projectInfo) => {
         project.addTask(thisTask);
     }
 }
-export {save, load, ProjectSetup};
+
+const compare = (a, b) {
+    if(a.getID() < b.getID()) {
+        return -1;
+    }
+
+    else if (a.getID() > b.getID()) {
+        return 1;
+    }
+
+    return 0;
+}
+
+export {save, load, ProjectSetup, compare};
