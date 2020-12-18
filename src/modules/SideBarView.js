@@ -11,29 +11,33 @@ const SideBarView = () => {
         const LI_CLASSNAME = "sidebar-project-list_item  solid-top-border";
         const DIV_CLASSNAME = "flex-content project-edit";
         const INPUT_CLASSNAME = "center-list-item";
-        const I_CLASSNAME = "material-icons";
+        const I_CLASSNAME = "material-icons icon";
 
         const li = document.createElement('li');
         const div =document.createElement('div');
         const input = document.createElement('input');
-        const i =  document.createElement('i');
+        const i_check = document.createElement('i');
+        const i_edit =  document.createElement('i');
 
 
         li.className = LI_CLASSNAME;
         div.className = DIV_CLASSNAME;
         input.className = INPUT_CLASSNAME;
-        i.className = I_CLASSNAME;
+        i_check.className = I_CLASSNAME;
+        i_edit.className = I_CLASSNAME;
 
         li.setAttribute("id", `project-${project.id}`);
         input.setAttribute("id", `p-input-${project.id}`);
         input.setAttribute("maxlength","16");
-        i.setAttribute("id", `p-create-${project.id}`);
+        i_check.setAttribute("id", `p-check-${project.id}`);
+        i_edit.setAttribute("id", `p-create-${project.id}`);
 
         input.value = project.name;
         input.disabled = true;
-        i.textContent = "create";
+        i_check.textContent = "check_circle_outline";
+        i_edit.textContent = "create";
 
-        div.append(input, i);
+        div.append(i_check, input, i_edit);
         li.append(div);
 
         RENDER_AREA.append(li);
@@ -94,10 +98,30 @@ const SideBarView = () => {
             button.addEventListener('click', e=> enableInput(id));
         };
 
+        const completeEvent = (id) => {
+            const button = document.querySelector(`#p-check-${id}`);
+            button.addEventListener('click', e=> {
+                const parent = document.querySelector("#ul-sidebar-projects");
+                const targetID = `project-${id}`;
+
+                let children = parent.childNodes;
+                Array.from(children).forEach(child => {
+                    if(child.id == targetID) {
+                        parent.removeChild(child);
+                        console.log("found");
+                        eventAggregator.publish("removedProjectFromView", {id});
+                    }
+
+                });
+
+            });
+        }
+
         const initEvents = (id) => {
             console.log("initEvents", id);
             inputEvent(id);
             editEvent(id);
+            completeEvent(id);
         };
     
         return {initEvents};
