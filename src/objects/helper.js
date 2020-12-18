@@ -74,7 +74,7 @@ const ProjectSetup = (project, projectInfo) => {
     }
 }
 
-const compare = (a, b) {
+const compare = (a, b) => {
     if(a.getID() < b.getID()) {
         return -1;
     }

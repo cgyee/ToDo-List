@@ -68,11 +68,32 @@ const SideBarView = () => {
             updateProjectListener(getProjectNodes());
         };
 
+        const addProjectEvent =(() =>{
+            const inputID = `#new-project-input`;
+            const buttonID = `#new-project-button`;
+
+            const input = document.querySelector(inputID);
+            const button = document.querySelector(buttonID);
+
+            input.addEventListener('keyup', e=> {
+                console.log(e.target.value);
+                button.disabled = e.target.value ? false : true;
+            });
+
+            button.addEventListener('click', e=> {
+                if(!e.target.disabled) {
+                    const name = input.value;
+                // eventAggregator.publish("createNewProject", {name});
+                }
+            });
+
+        })();
+
         const enableInput = (id) => {
             const input = document.querySelector(`#p-input-${id}`);    
             input.disabled = input.disabled ? false : true;
             input.className = input.disabled ? "center-list-item" : "center-list-item center-list-item-enabled";
-        }
+        };
         
         const enableButton = (e, id) => {
             const button = document.querySelector(`#p-create-${id}`);
@@ -82,24 +103,23 @@ const SideBarView = () => {
                 const name = e.target.value;
                 eventAggregator.publish("updateProjectName", {name, id});
             }
-        }
+        };
 
         const inputEvent = (id) => {
             const input = document.querySelector(`#p-input-${id}`);
             input.addEventListener('keydown', e=> enableButton(e, id));
-        }
+        };
 
         const editEvent = (id) => {
             const button = document.querySelector(`#p-create-${id}`);
-            console.log(button);
             button.addEventListener('click', e=> enableInput(id));
-        }
+        };
 
         const initEvents = (id) => {
             console.log("initEvents", id);
             inputEvent(id);
             editEvent(id);
-        }
+        };
     
         return {update, initEvents};
     })();
