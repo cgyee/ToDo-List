@@ -1,4 +1,6 @@
-import {Task} from './task'
+import { Project } from './project';
+import {ProjectController} from './ProjectController';
+import {Task} from './task';
 
 const saveTask = (project) => {
     const tasks = project.getTasksforStorage();
@@ -35,30 +37,39 @@ const saveProjectController = (controller) => {
     });
 
     console.log(controllerSerial);
+
+    return controllerSerial;
     // localStorage.setItem("controllerSerial", controllerSerial);
 };
 
-const save = (project) => {
-    const tasks = saveTask(project);
-    const thisproject = saveProject(project);
-    const project_storage = JSON.stringify({"projectInfo":thisproject, "tasks":tasks});
+const save = (controller) => {
+    // const tasks = saveTask(project);
+    // const thisproject = saveProject(project);
+    // const project_storage = JSON.stringify({"projectInfo":thisproject, "tasks":tasks});
+    const controlerSerial = JSON.stringify(saveProjectController(controller)) || "";
 
-    localStorage.setItem("project", project_storage);
+    localStorage.setItem("controllerSerial", controlerSerial);
 }
 
-const loadProject = () => {
-    let project = localStorage.getItem("project");
-    project = JSON.parse(project);
+const loadProjectController = () => {
+    let controllerDeserialized = localStorage.getItem("controllerSerial") || "";
+    controllerDeserialized = JSON.parse(controllerDeserialized) || "";
+    return controllerDeserialized;
+};
 
-    return project;
-}
+const loadProject = (project) => {
+    const projectInfo = loadProjectInfo(project.projectInfo);
+    const tasks = loadTask(project.tasks);
+    const deserializedProject = Object.assign({}, projectInfo, tasks);
+    return deserializedProject;
+};
 
 const loadTask = () => {
     const project = loadProject();
     const tasks = project ? JSON.parse(project.tasks) : "";
 
     return tasks;
-}
+};
 
 const loadProjectInfo = () => {
     const project = loadProject();
@@ -66,18 +77,18 @@ const loadProjectInfo = () => {
 
     return projectInfo;
 
-}
+};
 
 const load = () => {
-    const loadtask = loadTask();
-    const loadProj = loadProjectInfo();
+    let controllerDeserialized = localStorage.getItem("controllerSerial");
+    controllerDeserialized = JSON.parse(controllerDeserialized);
 
-    const tasks = loadtask ? loadtask : "";
-    const projectInfo = loadProj ? loadProj : "";
-    const project = tasks && projectInfo ? Object.assign({} ,{"tasks":tasks}, projectInfo) : "";
-
-    return project;
-}
+    for (let project in controllerDeserialized) {
+        const projectDeserialized = loadProject(project);
+        const newProject = ProjectSetup(Project(), projectDeserialized);
+        ProjectController.addProject(newProject);
+    }
+};
 
 const ProjectSetup = (project, projectInfo) => {
     const tasks = projectInfo.tasks;
@@ -94,7 +105,9 @@ const ProjectSetup = (project, projectInfo) => {
 
         project.addTask(thisTask);
     }
-}
+
+    return project;
+};
 
 const compare = (a, b) => {
     if(a.getID() < b.getID()) {

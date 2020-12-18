@@ -1,6 +1,12 @@
+import { ProjectController } from "../objects/ProjectController";
 import { eventAggregator } from "./EventHandler";
 
 const TodoView = () => {
+    let currentProject;
+
+    if(ProjectController.projectCount()) {
+        currentProject = ProjectController.getProjects()[0].getID() || "";
+    }
 
     const clearTaskDisplay = () => {
         const RENDER_AREA_ID = "#display-todos";
@@ -78,12 +84,12 @@ const TodoView = () => {
             const clearDateInput = () => {
                 const input = document.querySelector('#new-task-date');
                 input.value = "";
-            }
+            };
 
             const resetCharacterCount = () => {
                 const count = document.querySelector('#character-count');
                 count.textContent = "120";
-            }
+            };
 
             const getTextInput = () => {
                 const text = document.querySelector('#modal-text-input');
@@ -122,9 +128,9 @@ const TodoView = () => {
                 const title = getToDoTitle();
                 const details = getTextInput();
                 const date = getDate();
-
+                const projectID = currentProject;
                 clearModal();
-                eventAggregator.publish("createTask", {title, details, date});
+                eventAggregator.publish("createTask", {title, details, date, projectID});
             };
             
             const addTaskonClick = () => {
@@ -173,6 +179,10 @@ const TodoView = () => {
             eventAggregator.publish("addTasktoView", {title, details, id});
         } 
     });
+
+    eventAggregator.subscribe("projectSelected", eventArgs => {
+        currentProject = eventArgs.id;
+    })
 };
 
 export {TodoView};

@@ -113,7 +113,7 @@ const TodoItemView = () => {
         div.append(input);
         return div;
 
-    }
+    };
 
     const render = (options) => { 
 
@@ -136,7 +136,10 @@ const TodoItemView = () => {
         RENDER_AREA.append(grid);
 
         const e = ToDoItemEvents();
-        e.initEvents(options.id);
+
+        const id = options.id;
+        const projectID = options.projectID;
+        e.initEvents(id, projectID);
 
     };
 
@@ -158,7 +161,7 @@ const TodoItemView = () => {
             button.addEventListener('click', collapsibleOnClick);
         };
 
-        const collapsibleOnClickEdit = (e) => {
+        const collapsibleOnClickEdit = (e, projID) => {
             const targetID = e.target.className === I_CLASSNAME ? e.target.parentElement.id : e.target.id;
             const id = targetID.slice(7);
 
@@ -178,20 +181,21 @@ const TodoItemView = () => {
             });
 
             if(textarea.value && editCollapsible.className === "flex-content todo-details") {
-                eventAggregator.publish("updateDetails", {"id": id, "details": textarea.value, "date": datePicker.value});
+                const projectID = projID;
+                eventAggregator.publish("updateDetails", {"id": id, "details": textarea.value, "date": datePicker.value, "projetID": projectID});
             }
 
             datePicker.disabled = datePicker.disabled ? false : true;
             editCollapsible.className = toggleCollapsible(editCollapsible.className);
         };
 
-        const editEvent = (id) => {
+        const editEvent = (id, projID) => {
             const button = document.querySelector(`#create-${id}`);
-            button.addEventListener('click', collapsibleOnClickEdit);
+            button.addEventListener('click', e=> collapsibleOnClickEdit(e, projectID));
 
         };
 
-        const removeOnClick = (id) => {
+        const removeOnClick = (id, projID) => {
             const targetID = `grid-${id}`;
             const parent = document.querySelector('#display-todos');
             let children = parent.childNodes;
@@ -201,28 +205,31 @@ const TodoItemView = () => {
                     parent.removeChild(child);
                     const targetID = child.id;
                     const id = targetID.slice(5);
-                    eventAggregator.publish("removedTaskFromView", {id});
+                    const projectID = projID;
+
+                    eventAggregator.publish("removedTaskFromView", {id, projectID});
                 }
 
             });
         };
 
-        const completeTaskEvent = (id) => {
+        const completeTaskEvent = (id, projID) => {
             const button = document.querySelector(`#button-${id}`);
-            button.addEventListener('click', e=>removeOnClick(id));
+            button.addEventListener('click', e=>removeOnClick(id, projID));
         };
 
-        const initEvents = (id) => {
+        const initEvents = (id, pID) => {
             const thisID = id || "";
+            const projID = pID || "";
             collapsibleEvent(thisID);
-            completeTaskEvent(thisID);
-            editEvent(thisID);
+            completeTaskEvent(thisID, projID);
+            editEvent(thisID, projID);
         };
 
         return {initEvents};
     };
 
-    eventAggregator.subscribe("addTasktoView", eventArgs => {render(eventArgs);});
+    eventAggregator.subscribe("addTasktoView", eventArgs => render(eventArgs));
     eventAggregator.subscribe("addMultipleTaskstoView", eventArgs => {
         const tasks = eventArgs.tasks || {};
         for(let task in tasks) {

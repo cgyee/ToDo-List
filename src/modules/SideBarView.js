@@ -117,11 +117,24 @@ const SideBarView = () => {
             });
         };
 
+        const projectSelectionEvent = (id) => {
+            const input = document.querySelector(`#p-input-${id}`);
+            input.addEventListener('click', projectSelected(e.target.value, id));
+        };
+
+        const projectSelected = (disabled, id) => {
+            console.log(id);
+            if(disabled) {
+                eventAggregator.publish("projectSelectedView", {id});
+            }
+        };
+
         const initEvents = (id) => {
             console.log("initEvents", id);
             inputEvent(id);
             editEvent(id);
             completeEvent(id);
+            projectSelectionEvent(id);
         };
     
         return {initEvents};
