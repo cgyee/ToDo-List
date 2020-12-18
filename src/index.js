@@ -1,14 +1,17 @@
 import {Project} from './objects/project';
 import {Task} from './objects/task';
-import { eventAggregator } from './modules/EventHandler';
+import {ProjectController} from './objects/ProjectController';
+import {eventAggregator } from './modules/EventHandler';
 import {View} from './modules/View';
-import {save, load, ProjectSetup} from './objects/helper';
+import {save, load, ProjectSetup, saveProjectController} from './objects/helper';
 
 let project = load();
 const myProjects = Project({"name": "name", "id":0});
 if(project) {
     ProjectSetup(myProjects, project);
 }
+
+ProjectController.addProject(myProjects);
 
 const id = myProjects.createID();
 const p = Project({"name": "default", id});
@@ -21,12 +24,14 @@ if(project) {
 
 eventAggregator.subscribe("saveProject", eventArgs => {
     save(myProjects);
+    saveProjectController(ProjectController);
 });
 
 eventAggregator.subscribe("createNewProject", eventArgs => {
     const name = eventArgs.name || "default";
     const id = 1; //temp
     const project = Project({name, id});
+    ProjectController.addProject(project);
     eventAggregator.publish("addProjectToView", {name, id});
 });
 

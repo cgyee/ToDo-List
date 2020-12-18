@@ -115,7 +115,7 @@ const SideBarView = () => {
                 });
 
             });
-        }
+        };
 
         const initEvents = (id) => {
             console.log("initEvents", id);

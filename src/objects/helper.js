@@ -14,7 +14,29 @@ const saveProject = (project) => {
     const project_storage = JSON.stringify(thisproject);
     
     return project_storage;
-}
+};
+
+const saveProjectController = (controller) => {
+    let projects = controller.getProjects();
+    let controllerSerial = {};
+    console.log(projects);
+
+    projects.forEach(project => {
+        const id = project.getID();
+        controllerSerial[id] = {};
+    });
+
+    projects.forEach(project => {
+        const tasks = saveTask(project);
+        const thisproject = saveProject(project);
+        const id = project.getID();
+
+        controllerSerial[id] = JSON.stringify({"projectInfo":thisproject, "tasks":tasks});
+    });
+
+    console.log(controllerSerial);
+    // localStorage.setItem("controllerSerial", controllerSerial);
+};
 
 const save = (project) => {
     const tasks = saveTask(project);
@@ -84,6 +106,6 @@ const compare = (a, b) => {
     }
 
     return 0;
-}
+};
 
-export {save, load, ProjectSetup, compare};
+export {save, load, ProjectSetup, compare, saveProjectController};
