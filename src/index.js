@@ -17,7 +17,7 @@ import {save, load} from './objects/helper';
 // const p = Project({"name": "default", id});
 // const cappa = {id: p.getID(), name: p.getName()};
 View();
-load();
+// load();
 
 
 // if(project) {
@@ -31,8 +31,10 @@ eventAggregator.subscribe("saveProject", eventArgs => {
 
 eventAggregator.subscribe("createNewProject", eventArgs => {
     const name = eventArgs.name || "default";
-    const project = Project({name, id});
+    const project = Project({name});
     ProjectController.addProject(project);
+    const id = project.getID();
+    console.log("new project id", id);
     eventAggregator.publish("addProjectToView", {name, id});
 });
 
@@ -47,6 +49,18 @@ eventAggregator.subscribe("updateProjectName", eventArgs => {
     }
     
 });
+
+eventAggregator.subscribe("projectSelectedView", eventArgs => {
+    const id = eventArgs.id || "";
+    if(id) {
+        const project = ProjectController.getProject(id);
+        const tasks = project.getTasks();
+        const projectID = id;
+        eventAggregator.publish("projectSelected", {tasks, projectID});
+
+    }
+
+})
 
 eventAggregator.subscribe("createTask", eventArgs => {
     const task = Task(eventArgs);
@@ -75,7 +89,9 @@ eventAggregator.subscribe("updateDetails", eventArgs => {
 eventAggregator.subscribe("addTask", eventArgs => {
     const task = eventArgs.task;
     const projectID = eventArgs.projectID;
-    const project = myProjects.getProject(projectID);
+    const project = ProjectController.getProject(projectID);
+    console.log("project: ", project);
+    console.log("project id: ", projectID);
     project.addTask(task);
 
     const title = task.getTitle();

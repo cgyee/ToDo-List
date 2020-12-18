@@ -191,7 +191,7 @@ const TodoItemView = () => {
 
         const editEvent = (id, projID) => {
             const button = document.querySelector(`#create-${id}`);
-            button.addEventListener('click', e=> collapsibleOnClickEdit(e, projectID));
+            button.addEventListener('click', e=> collapsibleOnClickEdit(e, projID));
 
         };
 

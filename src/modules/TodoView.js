@@ -11,6 +11,7 @@ const TodoView = () => {
     const clearTaskDisplay = () => {
         const RENDER_AREA_ID = "#display-todos";
         const RENDER_AREA = document.querySelector(RENDER_AREA_ID);
+        console.log("clear task display", RENDER_AREA);
 
         while(RENDER_AREA.firstChild) {
             RENDER_AREA.removeChild(RENDER_AREA.firstChild);
@@ -128,8 +129,9 @@ const TodoView = () => {
                 const title = getToDoTitle();
                 const details = getTextInput();
                 const date = getDate();
-                const projectID = currentProject;
+                const projectID = currentProject || ProjectController.getProjects()[0].getID();
                 clearModal();
+                console.log("createNewTask pid: ", projectID);
                 eventAggregator.publish("createTask", {title, details, date, projectID});
             };
             
@@ -168,15 +170,16 @@ const TodoView = () => {
     })();
 
     eventAggregator.subscribe("projectSelected", eventArgs => {
-        const project = eventArgs.project;
+        const tasks = eventArgs.tasks;
+        const projectID = eventArgs.projectID;
         
         clearTaskDisplay();
-        for(let task in project) {
-            const title = project[task].getTitle();
-            const details = project[task].getDetails();
-            const id = project[task].getID();
+        for(let task in tasks) {
+            const title = tasks[task].getTitle();
+            const details = tasks[task].getDetails();
+            const id = tasks[task].getID();
 
-            eventAggregator.publish("addTasktoView", {title, details, id});
+            eventAggregator.publish("addTasktoView", {title, details, id, projectID});
         } 
     });
 
