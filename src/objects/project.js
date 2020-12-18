@@ -79,7 +79,7 @@ const Project = (options) => {
             };
         }
         return tasks;
-    }
+    };
 
     const updateDetails = (options) => {
         if(options.id) {

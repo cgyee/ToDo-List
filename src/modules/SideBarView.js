@@ -9,7 +9,7 @@ const SideBarView = () => {
         const RENDER_AREA = document.querySelector(RENDER_ID);
         
         const LI_CLASSNAME = "sidebar-project-list_item  solid-top-border";
-        const DIV_CLASSNAME = "flex-content project-edit"
+        const DIV_CLASSNAME = "flex-content project-edit";
         const INPUT_CLASSNAME = "center-list-item";
         const I_CLASSNAME = "material-icons";
 
@@ -41,32 +41,11 @@ const SideBarView = () => {
         SideBarProjEvents.initEvents(project.id);
     };
 
-    eventAggregator.subscribe("projectAdded", eventArgs => {
-        render(eventArgs.project);
+    eventAggregator.subscribe("addProjectToView", eventArgs => {
+        render(eventArgs);
     });
 
     const SideBarProjEvents = (() => {
-    
-        const getProjectNodes = () => {
-            
-            const SELECTOR_CLASSNAME = ".sidebar-project-list_item";
-    
-            const projNodes = document.querySelectorAll(SELECTOR_CLASSNAME);
-            return projNodes;
-        };
-    
-        const updateProjectListener = (projects) => {
-            //Todo
-            // projects.forEach(project => {
-            //     project.addEventListener('click', e => {
-            //         eventAggregator.publish("projectSelected", {});
-            //     });
-            // });
-        };
-    
-        const update = () => {
-            updateProjectListener(getProjectNodes());
-        };
 
         const addProjectEvent =(() =>{
             const inputID = `#new-project-input`;
@@ -76,14 +55,14 @@ const SideBarView = () => {
             const button = document.querySelector(buttonID);
 
             input.addEventListener('keyup', e=> {
-                console.log(e.target.value);
                 button.disabled = e.target.value ? false : true;
             });
 
             button.addEventListener('click', e=> {
                 if(!e.target.disabled) {
                     const name = input.value;
-                // eventAggregator.publish("createNewProject", {name});
+                    console.log(name);
+                    eventAggregator.publish("createNewProject", {name});
                 }
             });
 
@@ -121,11 +100,8 @@ const SideBarView = () => {
             editEvent(id);
         };
     
-        return {update, initEvents};
+        return {initEvents};
     })();
-
-    eventAggregator.subscribe("projectAdded", eventArgs => {
-        SideBarProjEvents.update();});
    
     return {render};
 };

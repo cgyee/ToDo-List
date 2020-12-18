@@ -2,7 +2,7 @@ import {Project} from './objects/project';
 import {Task} from './objects/task';
 import { eventAggregator } from './modules/EventHandler';
 import {View} from './modules/View';
-import {save, load, ProjectSetup} from './objects/helper'
+import {save, load, ProjectSetup} from './objects/helper';
 
 let project = load();
 const myProjects = Project({"name": "name", "id":0});
@@ -23,11 +23,18 @@ eventAggregator.subscribe("saveProject", eventArgs => {
     save(myProjects);
 });
 
+eventAggregator.subscribe("createNewProject", eventArgs => {
+    const name = eventArgs.name || "default";
+    const id = 1; //temp
+    const project = Project({name, id});
+    eventAggregator.publish("addProjectToView", {name, id});
+});
+
 eventAggregator.subscribe("updateProjectName", eventArgs => {
     
-} )
+});
 
-eventAggregator.publish("projectAdded", {project: cappa});
+eventAggregator.publish("addProjectToView", cappa);
 eventAggregator.subscribe("createTask", eventArgs => {
     const task = Task(eventArgs);
     eventAggregator.publish("addTask", {task});
