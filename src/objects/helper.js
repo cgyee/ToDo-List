@@ -21,7 +21,7 @@ const saveProject = (project) => {
 const saveProjectController = (controller) => {
     let projects = controller.getProjects();
     let controllerSerial = {};
-    console.log(projects);
+    // console.log(projects);
 
     projects.forEach(project => {
         const id = project.getID();
@@ -36,7 +36,7 @@ const saveProjectController = (controller) => {
         controllerSerial[id] = JSON.stringify({"projectInfo":thisproject, "tasks":tasks});
     });
 
-    console.log(controllerSerial);
+    // console.log(controllerSerial);
 
     return controllerSerial;
     // localStorage.setItem("controllerSerial", controllerSerial);
@@ -49,7 +49,7 @@ const save = (controller) => {
     const controlerSerial = JSON.stringify(saveProjectController(controller)) || "";
 
     localStorage.setItem("controllerSerial", controlerSerial);
-}
+};
 
 const loadProjectController = () => {
     let controllerDeserialized = localStorage.getItem("controllerSerial") || "";
@@ -60,39 +60,40 @@ const loadProjectController = () => {
 const loadProject = (project) => {
     const projectInfo = loadProjectInfo(project.projectInfo);
     const tasks = loadTask(project.tasks);
-    const deserializedProject = Object.assign({}, projectInfo, tasks);
+    const deserializedProject = Object.assign({}, {projectInfo}, {tasks});
     return deserializedProject;
 };
 
-const loadTask = () => {
-    const project = loadProject();
-    const tasks = project ? JSON.parse(project.tasks) : "";
-
-    return tasks;
+const loadTask = (tasks) => {
+    const task = tasks ? JSON.parse(tasks) : "";
+    return task;
 };
 
-const loadProjectInfo = () => {
-    const project = loadProject();
-    const projectInfo = project ? JSON.parse(project.projectInfo) : "";
-
+const loadProjectInfo = (project_info) => {
+    const projectInfo = project_info ? JSON.parse(project_info) : "";
     return projectInfo;
 
 };
 
 const load = () => {
     let controllerDeserialized = localStorage.getItem("controllerSerial");
+    // console.log(controllerDeserialized);
     controllerDeserialized = JSON.parse(controllerDeserialized);
+    // console.log(controllerDeserialized);
 
-    for (let project in controllerDeserialized) {
+    for (let proj in controllerDeserialized) {
+        const project = JSON.parse(controllerDeserialized[proj]);
+        // console.log("project: ",project);
         const projectDeserialized = loadProject(project);
-        const newProject = ProjectSetup(Project(), projectDeserialized);
+        // console.log("deserialized project: ", projectDeserialized)
+        const newProject = ProjectSetup(Project({}), projectDeserialized);
         ProjectController.addProject(newProject);
     }
 };
 
 const ProjectSetup = (project, projectInfo) => {
     const tasks = projectInfo.tasks;
-
+    console.log(projectInfo);
     project.setName(projectInfo.name);
     project.setID(projectInfo.id);
 
@@ -105,7 +106,7 @@ const ProjectSetup = (project, projectInfo) => {
 
         project.addTask(thisTask);
     }
-
+    // console.log("project setup: ", project);
     return project;
 };
 

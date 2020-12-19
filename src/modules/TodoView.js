@@ -39,7 +39,7 @@ const TodoView = () => {
 
         const resetNewTaskButton = () => {
             toggleAddTaskButton(true, "#new-task-todo-button");
-        }
+        };
 
         const inputEvent = (id) => {
             const textarea = document.querySelector(id.input);
@@ -129,7 +129,7 @@ const TodoView = () => {
                 const title = getToDoTitle();
                 const details = getTextInput();
                 const date = getDate();
-                const projectID = currentProject || ProjectController.getProjects()[0].getID();
+                const projectID = currentProject;
                 clearModal();
                 console.log("createNewTask pid: ", projectID);
                 eventAggregator.publish("createTask", {title, details, date, projectID});
@@ -170,8 +170,13 @@ const TodoView = () => {
     })();
 
     eventAggregator.subscribe("projectSelected", eventArgs => {
-        const tasks = eventArgs.tasks;
-        const projectID = eventArgs.projectID;
+        currentProject = eventArgs.id;
+    });
+
+    eventAggregator.subscribe("projectSelected", eventArgs => {
+        currentProject = eventArgs.projectID;
+        const tasks = eventArgs.tasks || {};
+        const projectID = eventArgs.projectID || "";
         
         clearTaskDisplay();
         for(let task in tasks) {
@@ -182,10 +187,6 @@ const TodoView = () => {
             eventAggregator.publish("addTasktoView", {title, details, id, projectID});
         } 
     });
-
-    eventAggregator.subscribe("projectSelected", eventArgs => {
-        currentProject = eventArgs.id;
-    })
 };
 
 export {TodoView};
