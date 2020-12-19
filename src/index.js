@@ -117,10 +117,17 @@ eventAggregator.subscribe("removedTaskFromView", eventArgs=> {
 
 if(ProjectController.projectCount()) {
     const project = ProjectController.getProjects()[0];
+    const projects = ProjectController.getProjects();
     console.log(project);
     console.log("projects", ProjectController.getProjects());
     const tasks = project.getTasks();
     const projectID = project.getID();
     
     eventAggregator.publish("addMultipleTaskstoView", {tasks, projectID});
+
+    for(let p in projects) {
+        const id = projects[p].getID();
+        const name = projects[p].getName();
+        eventAggregator.publish("addProjectToView", {name, id});
+    }
 }

@@ -91,11 +91,11 @@ const load = () => {
     }
 };
 
-const ProjectSetup = (project, projectInfo) => {
-    const tasks = projectInfo.tasks;
-    console.log(projectInfo);
-    project.setName(projectInfo.name);
-    project.setID(projectInfo.id);
+const ProjectSetup = (project, info) => {
+    const tasks = info.tasks;
+    console.log("projectInfo ", info);
+    project.setName(info.projectInfo.name);
+    project.setID(info.projectInfo.id);
 
     for (let task in tasks) {
         const id = tasks[task].id || 0;
